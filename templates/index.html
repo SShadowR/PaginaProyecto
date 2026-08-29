@@ -467,41 +467,52 @@
             setTimeout(() => { notif.style.display = 'none'; }, 3500);
         }
 
-        async function cambiarSeccion(seccion) {
-            document.querySelector('.nav-links').classList.remove('active');
-            document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
-            const container = document.getElementById('app');
+       async function cambiarSeccion(seccion) {
+    document.querySelector('.nav-links').classList.remove('active');
+    document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
+    const container = document.getElementById('app');
 
-            if (seccion === 'inicio') {
-                document.getElementById('nav-inicio').classList.add('active');
-                container.innerHTML = `
-                    <div class="hero-section">
-                        <h1>ECLIPSE <span>🌙✨</span></h1>
-                        <p style="font-size: 1.2rem; color: var(--rose); margin-bottom: 10px;">“Un espacio para cuidarte, conocerte y volver a encontrarte.”</p>
-                        <p style="max-width: 600px; margin: 0 auto 30px auto;">Tu bienestar también merece un espacio. No tienes que convertirte en otra persona para sentirte bien contigo.</p>
-                        <div style="display: flex; gap: 15px; justify-content: center;">
-                            <button class="btn" onclick="cambiarSeccion('emociones')">COMENZAR ✨</button>
-                            <button class="btn-sm" onclick="cambiarSeccion('sobre')">CONOCER ECLIPSE</button>
-                        </div>
-                    </div>
-                `;
-            } else if (seccion === 'emociones') {
-                document.getElementById('nav-emociones').classList.add('active');
-                container.innerHTML = `
-                    <h1>¿Cómo te <span>sientes hoy?</span></h1>
-                    <p>Selecciona cómo te encuentras para recibir un mensaje especial adaptado a tu momento.</p>
-                    <div class="emotions-grid">
-                        <div class="emotion-card" onclick="responderEmocion('feliz')"><h3>😊</h3><p>Feliz</p></div>
-                        <div class="emotion-card" onclick="responderEmocion('tranquilo')"><h3>😌</h3><p>Tranquilo/a</p></div>
-                        <div class="emotion-card" onclick="responderEmocion('motivado')"><h3>🥰</h3><p>Motivado/a</p></div>
-                        <div class="emotion-card" onclick="responderEmocion('normal')"><h3>😐</h3><p>Normal</p></div>
-                        <div class="emotion-card" onclick="responderEmocion('triste')"><h3>😔</h3><p>Triste</p></div>
-                        <div class="emotion-card" onclick="responderEmocion('estresado')"><h3>😩</h3><p>Estresado/a</p></div>
-                        <div class="emotion-card" onclick="responderEmocion('cansado')"><h3>😴</h3><p>Cansado/a</p></div>
-                        <div class="emotion-card" onclick="responderEmocion('nose')"><h3>🤍</h3><p>No sé</p></div>
-                    </div>
-                    <div id="resultado-emocion" style="margin-top: 25px;"></div>
-                `;
+    if (seccion === 'inicio') {
+        document.getElementById('nav-inicio').classList.add('active');
+        container.innerHTML = `
+            <div class="hero-section">
+                <h1>ECLIPSE <span>🌙 ✨</span></h1>
+                <p style="font-size: 1.2rem; color: var(--rose); margin-bottom: 10px;">"Un espacio para cuidarte, conocerte y volver a encontrarte."</p>
+                <p style="max-width: 600px; margin: 0 auto 30px auto;">Tu bienestar también merece un espacio. No tienes que convertirte en otra persona para sentirte bien.</p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button class="btn" onclick="cambiarSeccion('emociones')">COMENZAR ✨</button>
+                    <button class="btn-sm" onclick="cambiarSeccion('sobre')">CONOCER ECLIPSE</button>
+                </div>
+            </div>
+        `;
+    } else if (seccion === 'chat') {
+        document.getElementById('nav-chat').classList.add('active');
+        container.innerHTML = `
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h3>🌙 CHAT DE ORIENTACIÓN ECLIPSE</h3>
+                </div>
+                <div class="chat-messages" id="chat-messages"></div>
+            </div>
+        `;
+        mostrarPasoChat('inicio');
+    } else if (seccion === 'emociones') {
+        document.getElementById('nav-emociones').classList.add('active');
+        container.innerHTML = `
+            <h1>¿Cómo te <span>sientes hoy?</span></h1>
+            <p>Selecciona cómo te encuentras para recibir un mensaje especial adaptado a tu momento.</p>
+            <div class="emotions-grid">
+                <div class="emotion-card" onclick="responderEmocion('feliz')"><h3>😊</h3><p>Feliz</p></div>
+                <div class="emotion-card" onclick="responderEmocion('tranquilo')"><h3>😌</h3><p>Tranquilo</p></div>
+                <div class="emotion-card" onclick="responderEmocion('motivado')"><h3>🥰</h3><p>Motivado/a</p></div>
+                <div class="emotion-card" onclick="responderEmocion('normal')"><h3>😐</h3><p>Normal</p></div>
+                <div class="emotion-card" onclick="responderEmocion('triste')"><h3>😔</h3><p>Triste</p></div>
+                <div class="emotion-card" onclick="responderEmocion('estresado')"><h3>😩</h3><p>Estresado/a</p></div>
+                <div class="emotion-card" onclick="responderEmocion('cansado')"><h3>🥱</h3><p>Cansado/a</p></div>
+                <div class="emotion-card" onclick="responderEmocion('nose')"><h3>🖤</h3><p>No sé</p></div>
+            </div>
+            <div id="resultado-emocion" style="margin-top: 25px;"></div>
+        `;
             } else if (seccion === 'sobre') {
                 document.getElementById('nav-sobre').classList.add('active');
                 container.innerHTML = `
