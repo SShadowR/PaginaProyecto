@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECLIPSE 🌙✨ - Un espacio para cuidarte</title>
+    <style>
+        :root {
+            --bg-main: #181416;
+            --bg-card: #221c1f;
+            --card-border: #382d33;
+            --text-main: #f5f0f2;
+            --text-muted: #b8a8b0;
+            --accent: #d4af37; /* Dorado */
+            --accent-glow: rgba(212, 175, 55, 0.2);
+            --rose: #c98ca5; /* Palo de rosa elegante */
+            --input-bg: #120f11;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(24, 20, 22, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent);
+        }
+
+        .user-badge {
+            font-size: 0.85rem;
+            background: rgba(201, 140, 165, 0.15);
+            color: var(--rose);
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--rose);
+        }
+
+        /* --- CONTENEDOR DE SECCIONES --- */
+        .main-container {
+            max-width: 1000px;
+            margin: 100px auto 50px auto;
+            padding: 20px;
+            min-height: 80vh;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        h1 span {
+            color: var(--accent);
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* --- BOTONES Y TARJETAS --- */
+        .btn {
+            background: linear-gradient(135deg, var(--accent), #b38f26);
+            color: #120f11;
+            border: none;
+            padding: 12px 25px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--accent-glow);
+        }
+
+        .btn-sm {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-sm:hover {
+            background: var(--accent);
+            color: #120f11;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--rose);
+        }
+
+        /* --- SECCIÓN INICIO --- */
+        .hero-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        /* --- EMOCIONES / CHECK-IN --- */
+        .emotions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .emotion-card {
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .emotion-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        /* --- FORO COMUNITARIO --- */
+        .forum-post {
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .forum-header-post {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .forum-author {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 0.95rem;
+        }
+
+        .forum-badges-inline {
+            display: flex;
+            gap: 6px;
+        }
+
+        .forum-badge-tag {
+            font-size: 0.7rem;
+            background: rgba(201, 140, 165, 0.2);
+            color: var(--rose);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        /* --- FORMULARIOS --- */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* --- NOTIFICACIÓN FLOTANTE --- */
+        #notificacion {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            display: none;
+            z-index: 2000;
+            font-size: 0.9rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--card-border);
+            margin-top: 60px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media(max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; }
+            .main-container { margin-top: 80px; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav>
+        <div class="nav-logo" onclick="cambiarSeccion('inicio')">ECLIPSE 🌙</div>
+        <ul class="nav-links">
+            <li><a id="nav-inicio" onclick="cambiarSeccion('inicio')" class="active">Inicio</a></li>
+            <li><a id="nav-emociones" onclick="cambiarSeccion('emociones')">Check-in</a></li>
+            <li><a id="nav-sobre" onclick="cambiarSeccion('sobre')">Sobre ECLIPSE</a></li>
+            <li><a id="nav-servicios" onclick="cambiarSeccion('servicios')">Servicios</a></li>
+            <li><a id="nav-foro" onclick="cambiarSeccion('foro')">Foro</a></li>
+            <li><a id="nav-portafolios" onclick="cambiarSeccion('portafolios')">Portafolios</a></li>
+            <li><a id="nav-diario" onclick="cambiarSeccion('diario')">Mi Diario</a></li>
+            <li><a id="nav-auth" onclick="cambiarSeccion('auth')">Cuenta</a></li>
+        </ul>
+        <div id="user-badge-container"></div>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL DINÁMICO -->
+    <div class="main-container" id="app"></div>
+
+    <!-- NOTIFICACIÓN -->
+    <div id="notificacion"></div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>ECLIPSE 🌙✨ — Un espacio para cuidarte, conocerte y volver a encontrarte.</p>
+        <p style="margin-top: 8px;">© 2026 Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        let usuarioActual = null;
+        let publicacionesForo = [];
+
+        window.onload = async function() {
+            await verificarSesion();
+            cambiarSeccion('inicio');
+        };
+
+        async function verificarSesion() {
+            let res = await fetch('/check-session');
+            let data = await res.json();
+            if(data.autenticado) {
+                usuarioActual = data.nombre;
+                document.getElementById('user-badge-container').innerHTML = `<span class="user-badge">✨ ${usuarioActual}</span>`;
+            } else {
+                usuarioActual = null;
+                document.getElementById('user-badge-container').innerHTML = `<button class="btn-sm" onclick="cambiarSeccion('auth')">Ingresar</button>`;
+            }
+        }
+
+        function mostrarNotificacion(mensaje) {
+            const notif = document.getElementById('notificacion');
+            notif.innerText = mensaje;
+            notif.style.display = 'block';
+            setTimeout(() => { notif.style.display = 'none'; }, 3500);
+        }
+
+        async function cambiarSeccion(seccion) {
+            document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
+            const container = document.getElementById('app');
+
+            if (seccion === 'inicio') {
+                document.getElementById('nav-inicio').classList.add('active');
+                container.innerHTML = `
+                    <div class="hero-section">
+                        <h1>ECLIPSE <span>🌙✨</span></h1>
+                        <p style="font-size: 1.2rem; color: var(--rose); margin-bottom: 10px;">“Un espacio para cuidarte, conocerte y volver a encontrarte.”</p>
+                        <p style="max-width: 600px; margin: 0 auto 30px auto;">Tu bienestar también merece un espacio. No tienes que convertirte en otra persona para sentirte bien contigo.</p>
+                        <div style="display: flex; gap: 15px; justify-content: center;">
+                            <button class="btn" onclick="cambiarSeccion('emociones')">COMENZAR ✨</button>
+                            <button class="btn-sm" onclick="cambiarSeccion('sobre')">CONOCER ECLIPSE</button>
+                        </div>
+                    </div>
+                `;
+            } else if (seccion === 'emociones') {
+                document.getElementById('nav-emociones').classList.add('active');
+                container.innerHTML = `
+                    <h1>¿Cómo te <span>sientes hoy?</span></h1>
+                    <p>Selecciona cómo te encuentras para recibir un mensaje especial adaptado a tu momento.</p>
+                    <div class="emotions-grid">
+                        <div class="emotion-card" onclick="responderEmocion('feliz')"><h3>😊</h3><p>Feliz</p></div>
+                        <div class="emotion-card" onclick="responderEmocion('tranquilo')"><h3>😌</h3><p>Tranquilo/a</p></div>
+                        <div class="emotion-card" onclick="responderEmocion('motivado')"><h3>🥰</h3><p>Motivado/a</p></div>
+                        <div class="emotion-card" onclick="responderEmocion('normal')"><h3>😐</h3><p>Normal</p></div>
+                        <div class="emotion-card" onclick="responderEmocion('triste')"><h3>😔</h3><p>Triste</p></div>
+                        <div class="emotion-card" onclick="responderEmocion('estresado')"><h3>😩</h3><p>Estresado/a</p></div>
+                        <div class="emotion-card" onclick="responderEmocion('cansado')"><h3>😴</h3><p>Cansado/a</p></div>
+                        <div class="emotion-card" onclick="responderEmocion('nose')"><h3>🤍</h3><p>No sé</p></div>
+                    </div>
+                    <div id="resultado-emocion" style="margin-top: 25px;"></div>
+                `;
+            } else if (seccion === 'sobre') {
+                document.getElementById('nav-sobre').classList.add('active');
+                container.innerHTML = `
+                    <h1>Sobre <span>ECLIPSE</span></h1>
+                    <div class="card">
+                        <p style="font-size: 1.05rem; color: var(--text-main);">“ECLIPSE es un espacio creado para acompañarte en el proceso de conocerte, cuidarte y fortalecer tu bienestar. Ofrecemos orientación personalizada y espacios individuales adaptados a cada caso, buscando que cada persona encuentre herramientas que puedan servirle en su propio proceso.”</p>
+                        <button class="btn-sm" style="margin-top: 15px;" onclick="cambiarSeccion('servicios')">CONOCER NUESTRO PROPÓSITO</button>
+                    </div>
+                `;
+            } else if (seccion === 'servicios') {
+                document.getElementById('nav-servicios').classList.add('active');
+                container.innerHTML = `
+                    <h1>Nuestros <span>Servicios</span></h1>
+                    <p>Estamos aquí para escucharte y acompañarte.</p>
+                    <div class="card">
+                        <h3>🌷 Orientación Personalizada</h3>
+                        <p>Recibe orientación adaptada a tus necesidades, intereses y situación particular.</p>
+                        <button class="btn-sm" onclick="verDetalleServicio('orientacion')">CONOCER MÁS →</button>
+                    </div>
+                    <div class="card">
+                        <h3>💬 Asesorías Individuales</h3>
+                        <p>Espacios individuales en los que puedes conversar sobre tu situación y recibir orientación específica.</p>
+                        <button class="btn-sm" onclick="verDetalleServicio('asesoria')">ASESORÍA INDIVIDUAL →</button>
+                    </div>
+                    <div id="detalle-servicio-container" style="margin-top: 30px;"></div>
+                `;
+            } else if (seccion === 'foro') {
+                document.getElementById('nav-foro').classList.add('active');
+                let res = await fetch('/api/foro');
+                publicacionesForo = await res.json();
+
+                let htmlPosts = publicacionesForo.map(p => {
+                    let insigniasHTML = '';
+                    if (p.insignias) {
+                        let ins = typeof p.insignias === 'string' ? JSON.parse(p.insignias.replace(/'/g, '"')) : p.insignias;
+                        if (ins.diario) insigniasHTML += `<span class="forum-badge-tag">📖 Diario</span>`;
+                        if (ins.respiracion) insigniasHTML += `<span class="forum-badge-tag">🧘 Calma</span>`;
+                        if (ins.foro) insigniasHTML += `<span class="forum-badge-tag">💬 Foro</span>`;
+                        if (ins.reto) insigniasHTML += `<span class="forum-badge-tag">⭐ Reto</span>`;
+                    }
+
+                    let comentariosHTML = '';
+                    if (p.comentarios && p.comentarios.length > 0) {
+                        comentariosHTML = `<div style="margin-top: 12px; border-top: 1px solid var(--card-border); padding-top: 10px; display: flex; flex-direction: column; gap: 8px;">`;
+                        p.comentarios.forEach(c => {
+                            comentariosHTML += `
+                                <div style="background: rgba(0,0,0,0.15); padding: 8px 12px; border-radius: 10px; font-size: 0.82rem;">
+                                    <span style="color: var(--accent); font-weight: 600;">${c.autor}:</span> ${c.texto}
+                                </div>
+                            `;
+                        });
+                        comentariosHTML += `</div>`;
+                    }
+
+                    return `
+                        <div class="forum-post">
+                            <div class="forum-header-post">
+                                <span class="forum-author">${p.autor}</span>
+                                <div class="forum-badges-inline">${insigniasHTML}</div>
+                            </div>
+                            <div class="forum-content" style="margin-bottom: 10px;">${p.texto}</div>
+                            ${comentariosHTML}
+                            <div style="margin-top: 12px; display: flex; gap: 8px;">
+                                <input type="text" id="comentario-input-${p.id}" placeholder="Escribe una palabra de aliento..." style="flex:1; padding: 7px 12px; background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main); font-size: 0.82rem; outline: none;">
+                                <button class="btn-sm" onclick="enviarComentario(${p.id})">Responder</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                container.innerHTML = `
+                    <h1>Foro <span>Comunitario</span></h1>
+                    <p>Comparte mensajes de aliento y responde a las publicaciones de otros miembros.</p>
+                    <div class="forum-list">
+                        ${htmlPosts.length > 0 ? htmlPosts : '<p style="text-align:center; color:var(--text-muted); font-size:0.85rem; padding: 20px;">El foro está vacío. ¡Sé el primero en compartir un mensaje positivo!</p>'}
+                    </div>
+                    <div class="input-group" style="margin-top: 15px;">
+                        <textarea id="texto-foro" placeholder="Escribe un mensaje principal para la comunidad..."></textarea>
+                    </div>
+                    <button class="btn" onclick="publicarForo()">Publicar en el Foro</button>
+                `;
+            } else if (seccion === 'portafolios') {
+                document.getElementById('nav-portafolios').classList.add('active');
+                container.innerHTML = `
+                    <h1>Nuestro <span>Portafolio ✨</span></h1>
+                    <p>Explora nuestras categorías enfocadas en tu bienestar y crecimiento personal.</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                        <div class="card">
+                            <h3>🌸 Portafolio de Autocuidado</h3>
+                            <p>Rutinas, recomendaciones y actividades diarias.</p>
+                            <button class="btn-sm" onclick="verDetallePortafolio('autocuidado')">VER PORTAFOLIO</button>
+                        </div>
+                        <div class="card">
+                            <h3>💗 Portafolio de Autoestima</h3>
+                            <p>Recursos para fortalecer la confianza y reconocer tus cualidades.</p>
+                            <button class="btn-sm" onclick="verDetallePortafolio('autoestima')">VER PORTAFOLIO</button>
+                        </div>
+                        <div class="card">
+                            <h3>🌿 Portafolio de Bienestar</h3>
+                            <p>Contenido relacionado con hábitos saludables y bienestar.</p>
+                            <button class="btn-sm" onclick="verDetallePortafolio('bienestar')">VER PORTAFOLIO</button>
+                        </div>
+                        <div class="card">
+                            <h3>💭 Portafolio Emocional</h3>
+                            <p>Herramientas para identificar y expresar emociones.</p>
+                            <button class="btn-sm" onclick="verDetallePortafolio('emocional')">VER PORTAFOLIO</button>
+                        </div>
+                        <div class="card">
+                            <h3>✨ Portafolio de Rutinas</h3>
+                            <p>Ideas de pequeñas rutinas de cuidado personal.</p>
+                            <button class="btn-sm" onclick="verDetallePortafolio('rutinas')">VER PORTAFOLIO</button>
+                        </div>
+                        <div class="card">
+                            <h3>🪞 Portafolio de Amor Propio</h3>
+                            <p>Actividades y reflexiones para conocerse mejor.</p>
+                            <button class="btn-sm" onclick="verDetallePortafolio('amorpropio')">VER PORTAFOLIO</button>
+                        </div>
+                    </div>
+                    <div id="detalle-portafolio-container" style="margin-top: 30px;"></div>
+                `;
+            } else if (seccion === 'diario') {
+                document.getElementById('nav-diario').classList.add('active');
+                if(!usuarioActual) {
+                    container.innerHTML = `<h1>Mi <span>Diario</span></h1><p>Por favor ingresa con tu cuenta para acceder a tu espacio personal de escritura.</p><button class="btn" onclick="cambiarSeccion('auth')">Ir a Cuenta</button>`;
+                    return;
+                }
+                let res = await fetch('/api/diario');
+                let entradas = await res.json();
+                let htmlEntradas = entradas.map(e => `<div class="card"><small style="color:var(--accent);">${e.fecha}</small><p style="margin-top:8px;">${e.texto}</p></div>`).join('');
+
+                container.innerHTML = `
+                    <h1>Mi <span>Diario</span></h1>
+                    <p>Un espacio seguro solo para ti.</p>
+                    <div class="input-group">
+                        <textarea id="texto-diario" placeholder="¿Cómo fue tu día hoy? Escribe lo que sientas..."></textarea>
+                    </div>
+                    <button class="btn" onclick="guardarEntradaDiario()">Guardar Entrada</button>
+                    <div style="margin-top: 30px;">
+                        <h3>Tus entradas anteriores</h3>
+                        <div style="margin-top: 15px;">${htmlEntradas.length > 0 ? htmlEntradas : '<p style="color:var(--text-muted); font-size:0.9rem;">Aún no tienes entradas registradas.</p>'}</div>
+                    </div>
+                `;
+            } else if (seccion === 'auth') {
+                document.getElementById('nav-auth').classList.add('active');
+                if (usuarioActual) {
+                    container.innerHTML = `
+                        <h1>Tu <span>Cuenta</span></h1>
+                        <p>Ya has iniciado sesión correctamente en ECLIPSE.</p>
+                        <div class="card" style="max-width: 450px; margin: 0 auto; text-align: center; padding: 35px;">
+                            <p style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 20px;">Sesión activa como: <strong style="color: var(--accent);">${usuarioActual}</strong></p>
+                            <a href="/logout" class="btn" style="text-decoration: none; display: inline-block;">Cerrar Sesión</a>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <h1>Acceso a <span>ECLIPSE</span></h1>
+                        <p>Inicia sesión o regístrate para guardar tu progreso y desbloquear insignias.</p>
+                        <div class="card" style="max-width: 450px; margin: 0 auto;">
+                            <div class="input-group">
+                                <label>Nombre de usuario</label>
+                                <input type="text" id="auth-user" placeholder="Ej. Samuel">
+                            </div>
+                            <div class="input-group">
+                                <label>Contraseña</label>
+                                <input type="password" id="auth-pass" placeholder="••••••••">
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                                <button class="btn" style="flex:1;" onclick="ejecutarLogin()">Iniciar Sesión</button>
+                                <button class="btn-sm" style="flex:1; padding: 12px;" onclick="ejecutarRegistro()">Registrarse</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function verDetalleServicio(tipo) {
+            const contenedor = document.getElementById('detalle-servicio-container');
+            let titulo = "";
+            let descripcion = "";
+
+            if (tipo === 'orientacion') {
+                titulo = "🌷 Orientación Personalizada";
+                descripcion = "Te acompañamos a identificar tus fortalezas y metas actuales mediante un espacio de escucha activa, ayudándote a trazar pequeños pasos para tu bienestar diario.";
+            } else {
+                titulo = "💬 Asesorías Individuales";
+                descripcion = "Un espacio confidencial y exclusivo para tratar inquietudes personales específicas, brindándote herramientas prácticas de gestión emocional y autocuidado.";
+            }
+
+            contenedor.innerHTML = `
+                <div class="card" style="border-color: var(--accent); background: rgba(212, 175, 55, 0.04);">
+                    <h2 style="color: var(--accent); margin-bottom: 10px;">${titulo}</h2>
+                    <p style="color: var(--text-main); margin-bottom: 15px;">${descripcion}</p>
+                    <div class="input-group">
+                        <label>Cuéntanos brevemente qué te gustaría tratar o en qué podemos apoyarte:</label>
+                        <textarea id="solicitud-servicio-texto" placeholder="Escribe tu mensaje aquí..."></textarea>
+                    </div>
+                    <button class="btn" onclick="enviarSolicitudServicio('${tipo}')">SOLICITAR ESPACIO</button>
+                </div>
+            `;
+            contenedor.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function enviarSolicitudServicio(tipo) {
+            const texto = document.getElementById('solicitud-servicio-texto').value;
+            if(!texto.trim()) {
+                mostrarNotificacion("Por favor escribe un breve mensaje antes de enviar.");
+                return;
+            }
+            mostrarNotificacion("¡Solicitud enviada con éxito! Nos pondremos en contacto pronto.");
+            document.getElementById('solicitud-servicio-texto').value = '';
+        }
+
+        function verDetallePortafolio(tipo) {
+            const contenedor = document.getElementById('detalle-portafolio-container');
+            let titulo = "";
+            let contenidoHTML = "";
+
+            switch(tipo) {
+                case 'autocuidado':
+                    titulo = "🌸 Portafolio de Autocuidado";
+                    contenidoHTML = `
+                        <div class="card"><h3>Pausa Activa de 5 Minutos</h3><p>Detén lo que estás haciendo, estira tus brazos y respira profundamente tres veces.</p></div>
+                        <div class="card"><h3>Hidratación Consciente</h3><p>Tómate un vaso de agua fresca prestando atención a cada sorbo y cómo te hace sentir.</p></div>
+                        <div class="card"><h3>Desconexión Digital</h3><p>Apaga las notificaciones del teléfono durante 15 minutos y descansa la vista.</p></div>
+                    `;
+                    break;
+                case 'autoestima':
+                    titulo = "💗 Portafolio de Autoestima";
+                    contenidoHTML = `
+                        <div class="card"><h3>Reconoce tus Logros</h3><p>Anota tres cosas pequeñas que hayas hecho bien esta semana y celébralas.</p></div>
+                        <div class="card"><h3>Trato Amable</h3><p>Háblate a ti mismo/a de la misma manera en que le hablarías a alguien que quieres mucho.</p></div>
+                        <div class="card"><h3>Validación Propia</h3><p>Tus sentimientos son válidos. No necesitas la aprobación de nadie para sentirte bien contigo.</p></div>
+                    `;
+                    break;
+                case 'bienestar':
+                    titulo = "🌿 Portafolio de Bienestar";
+                    contenidoHTML = `
+                        <div class="card"><h3>Hábitos de Sueño</h3><p>Intenta acostarte y levantarte a una hora constante para mejorar tu descanso físico y mental.</p></div>
+                        <div class="card"><h3>Contacto con la Naturaleza</h3><p>Sal un momento a respirar aire fresco o contempla el cielo durante unos minutos.</p></div>
+                    `;
+                    break;
+                case 'emocional':
+                    titulo = "💭 Portafolio Emocional";
+                    contenidoHTML = `
+                        <div class="card"><h3>Identifica tu Emoción</h3><p>Ponle nombre a lo que sientes ahora mismo sin juzgarte por ello.</p></div>
+                        <div class="card"><h3>Escritura Libre</h3><p>Saca todo lo que tienes en la cabeza escribiéndolo en un papel o en tu diario personal.</p></div>
+                    `;
+                    break;
+                case 'rutinas':
+                    titulo = "✨ Portafolio de Rutinas";
+                    contenidoHTML = `
+                        <div class="card"><h3>Rutina de Mañana</h3><p>Comienza el día con calma, estiramientos suaves y una intención positiva.</p></div>
+                        <div class="card"><h3>Rutina de Noche</h3><p>Desconéctate de las pantallas una hora antes de dormir para relajar tu mente.</p></div>
+                    `;
+                    break;
+                case 'amorpropio':
+                    titulo = "🪞 Portafolio de Amor Propio";
+                    contenidoHTML = `
+                        <div class="card"><h3>Cita Contigo Mismo/a</h3><p>Dedica 20 minutos a hacer algo que realmente disfrutes a solas (leer, escuchar música, etc.).</p></div>
+                        <div class="card"><h3>Perdón Interno</h3><p>Recuerda que estás aprendiendo y está bien cometer errores en el camino.</p></div>
+                    `;
+                    break;
+            }
+
+            contenedor.innerHTML = `
+                <div style="border-top: 1px solid var(--card-border); padding-top: 25px;">
+                    <h2 style="color: var(--accent); margin-bottom: 15px;">${titulo}</h2>
+                    <p style="margin-bottom: 20px;">Contenido ampliado y actividades recomendadas:</p>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        ${contenidoHTML}
+                    </div>
+                </div>
+            `;
+            contenedor.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function responderEmocion(emocion) {
+            const contenedor = document.getElementById('resultado-emocion');
+            let textoRespuesta = "";
+            switch(emocion) {
+                case 'estresado':
+                    textoRespuesta = "“Respira un momento. No tienes que resolver todo al mismo tiempo. Regálate unos minutos para ti.”";
+                    break;
+                case 'triste':
+                    textoRespuesta = "“Está bien no sentirse bien todo el tiempo. Permítete sentir y recuerda que cuentas contigo y con un espacio seguro aquí.”";
+                    break;
+                case 'cansado':
+                    textoRespuesta = "“El descanso no es un lujo, es una necesidad. Date permiso de parar y recargar energías hoy.”";
+                    break;
+                case 'feliz':
+                    textoRespuesta = "“¡Qué alegría! Disfruta este momento al máximo y guarda esta sensación bonita en tu memoria.”";
+                    break;
+                default:
+                    textoRespuesta = "“Gracias por compartir cómo te sientes hoy. Recuerda que cada paso a tu propio ritmo es valioso.”";
+                    break;
+            }
+            contenedor.innerHTML = `
+                <div class="card" style="background: rgba(212, 175, 55, 0.08); border-color: var(--accent);">
+                    <p style="color: var(--text-main); font-size: 1.05rem;">${textoRespuesta}</p>
+                    <button class="btn-sm" style="margin-top: 10px;" onclick="cambiarSeccion('servicios')">QUIERO CUIDARME HOY</button>
+                </div>
+            `;
+        }
+
+        async function ejecutarLogin() {
+            let user = document.getElementById('auth-user').value;
+            let pass = document.getElementById('auth-pass').value;
+            let res = await fetch('/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `usuario=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`
+            });
+            if(res.ok) {
+                mostrarNotificacion("¡Bienvenido de nuevo!");
+                await verificarSesion();
+                cambiarSeccion('inicio');
+            } else {
+                mostrarNotificacion("Credenciales incorrectas.");
+            }
+        }
+
+        async function ejecutarRegistro() {
+            let user = document.getElementById('auth-user').value;
+            let pass = document.getElementById('auth-pass').value;
+            let res = await fetch('/registro', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `usuario=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`
+            });
+            if(res.ok) {
+                mostrarNotificacion("¡Cuenta creada con éxito!");
+                await verificarSesion();
+                cambiarSeccion('inicio');
+            } else {
+                mostrarNotificacion("El usuario ya existe o faltan datos.");
+            }
+        }
+
+        async function guardarEntradaDiario() {
+            let texto = document.getElementById('texto-diario').value;
+            let fechaHoy = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+            let res = await fetch('/api/diario', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ texto: texto, fecha: fechaHoy })
+            });
+            if(res.ok) {
+                mostrarNotificacion("¡Entrada guardada con éxito!");
+                cambiarSeccion('diario');
+            } else {
+                mostrarNotificacion("Escribe algo antes de guardar.");
+            }
+        }
+
+        async function publicarForo() {
+            if(!usuarioActual) {
+                mostrarNotificacion("Debes iniciar sesión para publicar en el foro.");
+                cambiarSeccion('auth');
+                return;
+            }
+            let texto = document.getElementById('texto-foro').value;
+            let res = await fetch('/api/foro', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ texto: texto })
+            });
+            if(res.ok) {
+                mostrarNotificacion("¡Publicado en el foro con éxito!");
+                cambiarSeccion('foro');
+            } else {
+                mostrarNotificacion("El mensaje no puede estar vacío.");
+            }
+        }
+
+        async function enviarComentario(pubId) {
+            if(!usuarioActual) {
+                mostrarNotificacion("Debes iniciar sesión para comentar.");
+                cambiarSeccion('auth');
+                return;
+            }
+            const input = document.getElementById(`comentario-input-${pubId}`);
+            const texto = input.value;
+            if(!texto.trim()) { mostrarNotificacion("Escribe un comentario antes de enviar."); return; }
+
+            const fechaHoy = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            let res = await fetch('/api/foro/comentar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ publicacion_id: pubId, texto: texto, fecha: fechaHoy })
+            });
+
+            if(res.ok) {
+                mostrarNotificacion("¡Respuesta enviada con éxito!");
+                cambiarSeccion('foro'); 
+            } else {
+                mostrarNotificacion("Error al enviar el comentario.");
+            }
+        }
+    </script>
+</body>
+</html>
