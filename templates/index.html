@@ -920,54 +920,53 @@
     </script>
     <script>
     // Lógica del Chat de Orientación ECLIPSE
-    const chatSteps = {
-        inicio: {
-            text: "¡Hola! Soy tu guía en ECLIPSE 🌙. Estoy aquí para acompañarte y orientarte en lo que necesites. ¿Cómo te sientes el día de hoy?",
-            options: [
-                { text: "Me siento abrumado/a o estresado/a", next: "estres" },
-                { text: "Necesito hablar sobre mis emociones o reflexionar", next: "emociones" },
-                { text: "Quiero explorar herramientas de bienestar", next: "herramientas" }
-            ]
-        },
-        estres: {
-            text: "Lamento que te sientas así, pero recuerda que es totalmente válido. Respira hondo... 🌬️ ¿Te gustaría hacer un ejercicio rápido de respiración o prefieres leer algunas recomendaciones para calmar la mente?",
-            options: [
-                { text: "Hacer ejercicio de respiración guiada", next: "respiracion" },
-                { text: "Ver recomendaciones de calma", next: "consejos_estres" },
-                { text: "Volver al inicio", next: "inicio" }
-            ]
-        },
-        emociones: {
-            text: "Reconocer lo que sentimos es el primer paso para sanar. Puedes usar la sección de 'Check-in' en el menú superior para registrar tu emoción exacta de hoy, o escribir en tu espacio de 'Mi Diario'. ¿Qué prefieres hacer?",
-            options: [
-                { text: "Ir al Check-in de emociones", action: () => cambiarSeccion('emociones') },
-                { text: "Ir a Mi Diario personal", action: () => cambiarSeccion('diario') },
-                { text: "Volver al inicio", next: "inicio" }
-            ]
-        },
-        herramientas: {
-            text: "Tenemos varios espacios diseñados para ti: el foro comunitario donde puedes expresarte de forma segura, y las reflexiones diarias. ¿Qué te gustaría explorar?",
-            options: [
-                { text: "Visitar el Foro Comunitario", action: () => cambiarSeccion('foro') },
-                { text: "Volver al inicio", next: "inicio" }
-            ]
-        },
-        respiracion: {
-            text: "Inhala profundamente durante 4 segundos... Mantén el aire por 4 segundos... y exhala despacio durante 4 segundos. 🌿 Repite esto 3 veces. ¿Te sientes un poco mejor?",
-            options: [
-                { text: "Sí, gracias, me siento más tranquilo/a", next: "inicio" },
-                { text: "Quiero volver a empezar", next: "inicio" }
-            ]
-        },
-        consejos_estres: {
-            text: "Aquí tienes 3 tips rápidos:\n1. Aléjate un momento de las pantallas.\n2. Toma un vaso con agua fría.\n3. Escribe en un papel lo que te preocupa para sacarlo de tu cabeza.\n\n¿Te sirve esta guía?",
-            options: [
-                { text: "¡Muchísimas gracias!", next: "inicio" },
-                { text: "Volver al inicio", next: "inicio" }
-            ]
-        }
-    };
-
+   const chatSteps = {
+    inicio: {
+        text: "¡Hola! Soy tu guía en ECLIPSE 🌙. Estoy aquí para acompañarte y orientarte en lo que necesites. ¿Cómo te sientes el día de hoy?",
+        options: [
+            { text: "Me siento abrumado/a o estresado/a", next: "estres" },
+            { text: "Necesito hablar sobre mis emociones o reflexionar", next: "emociones" },
+            { text: "Quiero explorar herramientas de bienestar", next: "herramientas" }
+        ]
+    },
+    estres: {
+        text: "Lamento que te sientas así, pero recuerda que es totalmente válido. Respira hondo... 🌬️ ¿Te gustaría hacer un ejercicio rápido de respiración o prefieres leer algunas recomendaciones para calmar la mente?",
+        options: [
+            { text: "Hacer ejercicio de respiración guiada", next: "respiracion" },
+            { text: "Ver recomendaciones de calma", next: "consejos_estres" },
+            { text: "Volver al inicio", next: "inicio" }
+        ]
+    },
+    emociones: {
+        text: "Reconocer lo que sentimos es el primer paso para sanar. Puedes usar la sección de 'Check-in' en el menú superior para registrar tu emoción exacta de hoy, o escribir en tu espacio de 'Mi Diario'. ¿Qué prefieres hacer?",
+        options: [
+            { text: "Ir al Check-in de emociones", action: () => cambiarSeccion('emociones') },
+            { text: "Ir a Mi Diario personal", action: () => cambiarSeccion('diario') },
+            { text: "Volver al inicio", next: "inicio" }
+        ]
+    },
+    herramientas: {
+        text: "Tenemos varios espacios diseñados para ti: el foro comunitario donde puedes expresarte de forma segura, y las reflexiones diarias. ¿Qué te gustaría explorar?",
+        options: [
+            { text: "Visitar el Foro Comunitario", action: () => cambiarSeccion('foro') },
+            { text: "Volver al inicio", next: "inicio" }
+        ]
+    },
+    respiracion: {
+        text: "Inhala profundamente durante 4 segundos... Mantén el aire por 4 segundos... y exhala despacio durante 4 segundos. 🌿 Repite esto 3 veces. ¿Te sientes un poco mejor?",
+        options: [
+            { text: "Sí, gracias, me siento más tranquilo/a", next: "inicio" },
+            { text: "Quiero volver a empezar", next: "inicio" }
+        ]
+    },
+    consejos_estres: {
+        text: "Aquí tienes 3 tips rápidos:\n1. Aléjate un momento de las pantallas.\n2. Toma un vaso con agua fría.\n3. Escribe en un papel lo que te preocupa para sacarlo de tu cabeza.\n\n¿Te sirve esta guía?",
+        options: [
+            { text: "¡Muchísimas gracias!", next: "inicio" },
+            { text: "Volver al inicio", next: "inicio" }
+        ]
+    }
+};
     function mostrarPasoChat(pasoKey) {
         const contenedorMensajes = document.getElementById('chat-messages');
         if (!contenedorMensajes) return;
