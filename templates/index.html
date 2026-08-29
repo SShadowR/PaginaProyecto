@@ -285,25 +285,66 @@
             .nav-links { display: none; }
             .main-container { margin-top: 80px; padding: 10px; }
         }
+        @media(max-width: 768px) {
+    nav { padding: 15px 20px; }
+    
+    .menu-toggle {
+        display: block !important;
+        background: none;
+        border: none;
+        color: var(--text-main);
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-card);
+        padding: 20px 0;
+        border-bottom: 1px solid var(--card-border);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .nav-links.active {
+        display: flex !important;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+        padding: 8px 0;
+    }
+
+    .main-container { margin-top: 80px; padding: 10px; }
+}
     </style>
 </head>
 <body>
 
     <!-- BARRA DE NAVEGACIÓN -->
     <nav>
-        <div class="nav-logo" onclick="cambiarSeccion('inicio')">ECLIPSE 🌙</div>
-        <ul class="nav-links">
-            <li><a id="nav-inicio" onclick="cambiarSeccion('inicio')" class="active">Inicio</a></li>
-            <li><a id="nav-emociones" onclick="cambiarSeccion('emociones')">Check-in</a></li>
-            <li><a id="nav-sobre" onclick="cambiarSeccion('sobre')">Sobre ECLIPSE</a></li>
-            <li><a id="nav-servicios" onclick="cambiarSeccion('servicios')">Servicios</a></li>
-            <li><a id="nav-foro" onclick="cambiarSeccion('foro')">Foro</a></li>
-            <li><a id="nav-portafolios" onclick="cambiarSeccion('portafolios')">Portafolios</a></li>
-            <li><a id="nav-diario" onclick="cambiarSeccion('diario')">Mi Diario</a></li>
-            <li><a id="nav-auth" onclick="cambiarSeccion('auth')">Cuenta</a></li>
-        </ul>
-        <div id="user-badge-container"></div>
-    </nav>
+    <div class="nav-logo" onclick="cambiarSeccion('inicio')">ECLIPSE 🌙</div>
+    
+    <!-- Pon el botón aquí -->
+    <button class="menu-toggle" onclick="toggleMenu()" style="display: none;">☰</button>
+
+    <ul class="nav-links">
+        <li><a id="nav-inicio" onclick="cambiarSeccion('inicio')" class="active">Inicio</a></li>
+        <li><a id="nav-emociones" onclick="cambiarSeccion('emociones')">Check-in</a></li>
+        <li><a id="nav-sobre" onclick="cambiarSeccion('sobre')">Sobre ECLIPSE</a></li>
+        <li><a id="nav-servicios" onclick="cambiarSeccion('servicios')">Servicios</a></li>
+        <li><a id="nav-foro" onclick="cambiarSeccion('foro')">Foro</a></li>
+        <li><a id="nav-portafolios" onclick="cambiarSeccion('portafolios')">Portafolios</a></li>
+        <li><a id="nav-diario" onclick="cambiarSeccion('diario')">Mi Diario</a></li>
+        <li><a id="nav-auth" onclick="cambiarSeccion('auth')">Cuenta</a></li>
+    </ul>
+    <div id="user-badge-container"></div>
+</nav>
 
     <!-- CONTENEDOR PRINCIPAL DINÁMICO -->
     <div class="main-container" id="app"></div>
@@ -346,6 +387,7 @@
         }
 
         async function cambiarSeccion(seccion) {
+            document.querySelector('.nav-links').classList.remove('active');
             document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
             const container = document.getElementById('app');
 
@@ -779,6 +821,10 @@
                 mostrarNotificacion("Error al enviar el comentario.");
             }
         }
+        function toggleMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('active');
+}
     </script>
 </body>
 </html>
