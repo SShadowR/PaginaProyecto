@@ -13,7 +13,7 @@
             --text-muted: #b8a8b0;
             --accent: #d4af37; /* Dorado */
             --accent-glow: rgba(212, 175, 55, 0.2);
-            --rose: #c98ca5; /* Palo de rosa elegante */
+            --rose: #c98ca5; 
             --input-bg: #120f11;
         }
 
@@ -32,7 +32,7 @@
             overflow-x: hidden;
         }
 
-        /* --- NAVEGACIÓN --- */
+        
         nav {
             position: fixed;
             top: 0;
@@ -85,7 +85,7 @@
             border: 1px solid var(--rose);
         }
 
-        /* --- CONTENEDOR DE SECCIONES --- */
+        
         .main-container {
             max-width: 1000px;
             margin: 100px auto 50px auto;
@@ -108,7 +108,7 @@
             margin-bottom: 20px;
         }
 
-        /* --- BOTONES Y TARJETAS --- */
+        
         .btn {
             background: linear-gradient(135deg, var(--accent), #b38f26);
             color: #120f11;
@@ -157,13 +157,13 @@
             border-color: var(--rose);
         }
 
-        /* --- SECCIÓN INICIO --- */
+        
         .hero-section {
             text-align: center;
             padding: 40px 0;
         }
 
-        /* --- EMOCIONES / CHECK-IN --- */
+        
         .emotions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -187,7 +187,7 @@
             background: rgba(212, 175, 55, 0.05);
         }
 
-        /* --- FORO COMUNITARIO --- */
+        
         .forum-post {
             background: var(--bg-card);
             border: 1px solid var(--card-border);
@@ -222,7 +222,7 @@
             border-radius: 10px;
         }
 
-        /* --- FORMULARIOS --- */
+       
         .input-group {
             margin-bottom: 15px;
         }
@@ -254,7 +254,7 @@
             min-height: 100px;
         }
 
-        /* --- NOTIFICACIÓN FLOTANTE --- */
+        
         #notificacion {
             position: fixed;
             bottom: 20px;
@@ -270,7 +270,7 @@
             font-size: 0.9rem;
         }
 
-        /* --- FOOTER --- */
+        
         footer {
             text-align: center;
             padding: 40px 20px;
@@ -323,7 +323,7 @@
     .main-container { margin-top: 80px; padding: 10px; }
 }
 
-/* Estilos para el Chat de Orientación */
+
 .chat-container {
     max-width: 700px;
     margin: 40px auto;
@@ -485,18 +485,20 @@
                 </div>
             </div>
         `;
-    } else if (seccion === 'chat') {
-        document.getElementById('nav-chat').classList.add('active');
-        container.innerHTML = `
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h3>🌙 CHAT DE ORIENTACIÓN ECLIPSE</h3>
-                </div>
-                <div class="chat-messages" id="chat-messages"></div>
+} else if (seccion === 'chat') {
+    document.getElementById('nav-chat').classList.add('active');
+    container.innerHTML = `
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3>🌙 CHAT DE ORIENTACIÓN ECLIPSE</h3>
             </div>
-        `;
+            <div class="chat-messages" id="chat-messages"></div>
+        </div>
+    `;
+    setTimeout(() => {
         mostrarPasoChat('inicio');
-    } else if (seccion === 'emociones') {
+    }, 10);
+} else if (seccion === 'emociones') {
         document.getElementById('nav-emociones').classList.add('active');
         container.innerHTML = `
             <h1>¿Cómo te <span>sientes hoy?</span></h1>
@@ -919,7 +921,7 @@
 }
     </script>
     <script>
-    // Lógica del Chat de Orientación ECLIPSE
+    
    const chatSteps = {
     inicio: {
         text: "¡Hola! Soy tu guía en ECLIPSE 🌙. Estoy aquí para acompañarte y orientarte en lo que necesites. ¿Cómo te sientes el día de hoy?",
@@ -1011,13 +1013,13 @@
 
         contenedorMensajes.appendChild(divMensaje);
         
-        // Auto-scroll hacia abajo para ver el nuevo mensaje
+        
         contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
     }
 
-    // Inicializar el chat cuando se cargue la sección o la página
+    
     document.addEventListener("DOMContentLoaded", () => {
-        // Si ya tienes una función 'cambiarSeccion', nos aseguramos de que inicialice el chat al entrar
+        
         const originalCambiarSeccion = window.cambiarSeccion;
         if (typeof originalCambiarSeccion === 'function') {
             window.cambiarSeccion = function(seccion) {
