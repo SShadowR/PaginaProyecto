@@ -496,8 +496,10 @@
         </div>
     `;
     setTimeout(() => {
-        mostrarPasoChat('inicio');
-    }, 10);
+        if (typeof mostrarPasoChat === 'function') {
+            mostrarPasoChat('inicio');
+        }
+    }, 50);
 } else if (seccion === 'emociones') {
         document.getElementById('nav-emociones').classList.add('active');
         container.innerHTML = `
@@ -969,12 +971,12 @@
         ]
     }
 };
-    function mostrarPasoChat(pasoKey) {
-        const contenedorMensajes = document.getElementById('chat-messages');
-        if (!contenedorMensajes) return;
+function mostrarPasoChat(pasoKey) {
+    const contenedorMensajes = document.getElementById('chat-messages');
+    if (!contenedorMensajes) return;
 
-        const paso = chatSteps[pasoKey];
-        if (!paso) return;
+    const paso = chatSteps[pasoKey];
+    if (!paso) return;
 
         // Crear burbuja de mensaje del bot
         const divMensaje = document.createElement('div');
@@ -1011,7 +1013,7 @@
             divMensaje.appendChild(divOpciones);
         }
 
-        contenedorMensajes.appendChild(divMensaje);
+    contenedorMensajes.appendChild(divMensaje);
         
         
         contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
