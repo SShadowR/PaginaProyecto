@@ -979,11 +979,15 @@ function mostrarPasoChat(pasoKey) {
         return;
     }
 
+    console.log("Buscando en chatSteps el paso:", pasoKey);
+    console.log("chatSteps actual:", typeof chatSteps !== 'undefined' ? chatSteps : "NO DEFINIDO");
+
     const paso = chatSteps[pasoKey];
     if (!paso) {
         console.log("¡No se encontró el paso en chatSteps!", pasoKey);
         return;
     }
+    console.log("Paso encontrado con éxito:", paso);
 
         // Crear burbuja de mensaje del bot
         const divMensaje = document.createElement('div');
