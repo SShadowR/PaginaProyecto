@@ -972,11 +972,18 @@
     }
 };
 function mostrarPasoChat(pasoKey) {
+    console.log("Ejecutando mostrarPasoChat con:", pasoKey);
     const contenedorMensajes = document.getElementById('chat-messages');
-    if (!contenedorMensajes) return;
+    if (!contenedorMensajes) {
+        console.log("¡No se encontró el contenedor de mensajes!");
+        return;
+    }
 
     const paso = chatSteps[pasoKey];
-    if (!paso) return;
+    if (!paso) {
+        console.log("¡No se encontró el paso en chatSteps!", pasoKey);
+        return;
+    }
 
         // Crear burbuja de mensaje del bot
         const divMensaje = document.createElement('div');
