@@ -987,61 +987,61 @@ function mostrarPasoChat(pasoKey) {
         console.log("¡No se encontró el paso en chatSteps!", pasoKey);
         return;
     }
-   console.log("Paso encontrado con éxito:", paso);
+    console.log("Paso encontrado con éxito:", paso);
 
-    // --- LÍNEA DE PRUEBA FORZADA ---
-    contenedorMensajes.innerHTML = `<div style="background: red; color: white; padding: 20px; font-size: 20px;">¡PROBANDO SI SE PINTA: ${paso.text}</div>`;
-    return; // Detenemos aquí temporalmente
-        // Crear contenedor de opciones
-        if (paso.options && paso.options.length > 0) {
-            const divOpciones = document.createElement('div');
-            divOpciones.className = 'chat-options';
-
-            paso.options.forEach(opcion => {
-                const btn = document.createElement('button');
-                btn.className = 'chat-btn';
-                btn.textContent = opcion.text;
-                
-                btn.onclick = () => {
-                    // Desactivar opciones anteriores para limpiar la interfaz
-                    divOpciones.querySelectorAll('button').forEach(b => b.disabled = true);
-                    
-                    // Mostrar la selección del usuario como un mensaje rápido o continuar
-                    if (opcion.next) {
-                        mostrarPasoChat(opcion.next);
-                    } else if (opcion.action) {
-                        opcion.action();
-                    }
-                };
-
-                divOpciones.appendChild(btn);
-            });
-
-            divMensaje.appendChild(divOpciones);
-        }
-
-    contenedorMensajes.appendChild(divMensaje);
-        
-        
-        contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
-    }
-
+    // Crear burbuja de mensaje del bot
+    const divMensaje = document.createElement('div');
+    divMensaje.className = 'chat-message';
     
-    document.addEventListener("DOMContentLoaded", () => {
-        
-        const originalCambiarSeccion = window.cambiarSeccion;
-        if (typeof originalCambiarSeccion === 'function') {
-            window.cambiarSeccion = function(seccion) {
-                originalCambiarSeccion(seccion);
-                if (seccion === 'chat') {
-                    const mensajes = document.getElementById('chat-messages');
-                    if (mensajes && mensajes.children.length === 0) {
-                        mostrarPasoChat('inicio');
-                    }
+    // Formatear saltos de línea si los hay
+    divMensaje.innerHTML = `<p style="margin: 0; color: var(--text-main);">${paso.text.replace(/\n/g, '<br>')}</p>`;
+
+    // Crear contenedor de opciones
+    if (paso.options && paso.options.length > 0) {
+        const divOpciones = document.createElement('div');
+        divOpciones.className = 'chat-options';
+
+        paso.options.forEach(opcion => {
+            const btn = document.createElement('button');
+            btn.className = 'chat-btn';
+            btn.textContent = opcion.text;
+            
+            btn.onclick = () => {
+                // Desactivar opciones anteriores para limpiar la interfaz
+                divOpciones.querySelectorAll('button').forEach(b => b.disabled = true);
+                
+                // Mostrar la selección del usuario como un mensaje rápido o continuar
+                if (opcion.next) {
+                    mostrarPasoChat(opcion.next);
+                } else if (opcion.action) {
+                    opcion.action();
                 }
             };
-        }
-    });
+
+            divOpciones.appendChild(btn);
+        });
+
+        divMensaje.appendChild(divOpciones);
+    }
+
+    contenedorMensajes.appendChild(divMensaje);
+    contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const originalCambiarSeccion = window.cambiarSeccion;
+    if (typeof originalCambiarSeccion === 'function') {
+        window.cambiarSeccion = function(seccion) {
+            originalCambiarSeccion(seccion);
+            if (seccion === 'chat') {
+                const mensajes = document.getElementById('chat-messages');
+                if (mensajes && mensajes.children.length === 0) {
+                    mostrarPasoChat('inicio');
+                }
+            }
+        };
+    }
+});
 </script>
 </body>
 </html>
