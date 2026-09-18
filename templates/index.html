@@ -972,61 +972,67 @@
     }
 };
 function mostrarPasoChat(pasoKey) {
-    console.log("Ejecutando mostrarPasoChat con:", pasoKey);
-    
-    // Buscamos el contenedor o lo creamos si no existe en el HTML
-    let contenedorMensajes = document.getElementById('chat-messages');
-    if (!contenedorMensajes) {
-        console.log("Creando contenedor de mensajes dinámicamente...");
-        const cajaChat = document.querySelector('.chat-container') || document.body;
-        const nuevoContenedor = document.createElement('div');
-        nuevoContenedor.id = 'chat-messages';
-        nuevoContenedor.style.cssText = 'display: flex; flex-direction: column; gap: 10px; padding: 20px; max-height: 400px; overflow-y: auto; width: 100%;';
-        cajaChat.appendChild(nuevoContenedor);
-        contenedorMensajes = nuevoContenedor;
+    try {
+        console.log("1. INICIO de mostrarPasoChat con:", pasoKey);
+        
+        let contenedorMensajes = document.getElementById('chat-messages');
+        if (!contenedorMensajes) {
+            console.log("Creando contenedor de mensajes dinámicamente...");
+            const cajaChat = document.querySelector('.chat-container') || document.body;
+            const nuevoContenedor = document.createElement('div');
+            nuevoContenedor.id = 'chat-messages';
+            nuevoContenedor.style.cssText = 'display: flex; flex-direction: column; gap: 10px; padding: 20px; max-height: 400px; overflow-y: auto; width: 100%;';
+            cajaChat.appendChild(nuevoContenedor);
+            contenedorMensajes = nuevoContenedor;
+        }
+
+        console.log("2. Buscando paso en chatSteps...");
+        const paso = chatSteps[pasoKey];
+        if (!paso) {
+            console.log("¡Error: El paso no existe en chatSteps!", pasoKey);
+            return;
+        }
+
+        console.log("3. Creando elementos visuales...");
+        const divMensaje = document.createElement('div');
+        divMensaje.className = 'chat-message';
+        divMensaje.style.cssText = 'background: #2b2b2b; color: #fff; padding: 12px 16px; border-radius: 8px; max-width: 80%;';
+        divMensaje.innerHTML = `<p style="margin: 0; color: var(--text-main);">${paso.text.replace(/\n/g, '<br>')}</p>`;
+
+        if (paso.options && paso.options.length > 0) {
+            const divOpciones = document.createElement('div');
+            divOpciones.className = 'chat-options';
+            divOpciones.style.cssText = 'display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;';
+
+            paso.options.forEach(opcion => {
+                const btn = document.createElement('button');
+                btn.className = 'chat-btn';
+                btn.textContent = opcion.text;
+                btn.style.cssText = 'background: var(--rose, #ff4757); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer;';
+                
+                btn.onclick = () => {
+                    divOpciones.querySelectorAll('button').forEach(b => b.disabled = true);
+                    if (opcion.next) {
+                        mostrarPasoChat(opcion.next);
+                    } else if (opcion.action) {
+                        opcion.action();
+                    }
+                };
+
+                divOpciones.appendChild(btn);
+            });
+
+            divMensaje.appendChild(divOpciones);
+        }
+
+        contenedorMensajes.appendChild(divMensaje);
+        console.log("4. ¡Mensaje y opciones añadidos al DOM con éxito!");
+
+    } catch (error) {
+        console.log("¡ERROR CRÍTICO CAPTURADO:", error);
     }
-
-    const paso = chatSteps[pasoKey];
-    if (!paso) {
-        console.log("¡No se encontró el paso en chatSteps!", pasoKey);
-        return;
-    }
-
-    // Limpiamos o añadimos el mensaje
-    const divMensaje = document.createElement('div');
-    divMensaje.className = 'chat-message';
-    divMensaje.style.cssText = 'background: #2b2b2b; color: #fff; padding: 12px 16px; border-radius: 8px; max-width: 80%;';
-    divMensaje.innerHTML = `<p style="margin: 0;">${paso.text.replace(/\n/g, '<br>')}</p>`;
-
-    if (paso.options && paso.options.length > 0) {
-        const divOpciones = document.createElement('div');
-        divOpciones.className = 'chat-options';
-        divOpciones.style.cssText = 'display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;';
-
-        paso.options.forEach(opcion => {
-            const btn = document.createElement('button');
-            btn.className = 'chat-btn';
-            btn.textContent = opcion.text;
-            btn.style.cssText = 'background: var(--rose, #ff4757); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer;';
-            
-            btn.onclick = () => {
-                divOpciones.querySelectorAll('button').forEach(b => b.disabled = true);
-                if (opcion.next) {
-                    mostrarPasoChat(opcion.next);
-                } else if (opcion.action) {
-                    opcion.action();
-                }
-            };
-
-            divOpciones.appendChild(btn);
-        });
-
-        divMensaje.appendChild(divOpciones);
-    }
-
-    contenedorMensajes.appendChild(divMensaje);
+}    contenedorMensajes.appendChild(divMensaje);
     contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
-}
 
 document.addEventListener("DOMContentLoaded", () => {
     const originalCambiarSeccion = window.cambiarSeccion;
