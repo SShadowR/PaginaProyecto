@@ -973,44 +973,44 @@
 };
 function mostrarPasoChat(pasoKey) {
     console.log("Ejecutando mostrarPasoChat con:", pasoKey);
-    const contenedorMensajes = document.getElementById('chat-messages');
+    
+    // Buscamos el contenedor o lo creamos si no existe en el HTML
+    let contenedorMensajes = document.getElementById('chat-messages');
     if (!contenedorMensajes) {
-        console.log("¡No se encontró el contenedor de mensajes!");
-        return;
+        console.log("Creando contenedor de mensajes dinámicamente...");
+        const cajaChat = document.querySelector('.chat-container') || document.body;
+        const nuevoContenedor = document.createElement('div');
+        nuevoContenedor.id = 'chat-messages';
+        nuevoContenedor.style.cssText = 'display: flex; flex-direction: column; gap: 10px; padding: 20px; max-height: 400px; overflow-y: auto; width: 100%;';
+        cajaChat.appendChild(nuevoContenedor);
+        contenedorMensajes = nuevoContenedor;
     }
-
-    console.log("Buscando en chatSteps el paso:", pasoKey);
-    console.log("chatSteps actual:", typeof chatSteps !== 'undefined' ? chatSteps : "NO DEFINIDO");
 
     const paso = chatSteps[pasoKey];
     if (!paso) {
         console.log("¡No se encontró el paso en chatSteps!", pasoKey);
         return;
     }
-    console.log("Paso encontrado con éxito:", paso);
 
-    // Crear burbuja de mensaje del bot
+    // Limpiamos o añadimos el mensaje
     const divMensaje = document.createElement('div');
     divMensaje.className = 'chat-message';
-    
-    // Formatear saltos de línea si los hay
-    divMensaje.innerHTML = `<p style="margin: 0; color: var(--text-main);">${paso.text.replace(/\n/g, '<br>')}</p>`;
+    divMensaje.style.cssText = 'background: #2b2b2b; color: #fff; padding: 12px 16px; border-radius: 8px; max-width: 80%;';
+    divMensaje.innerHTML = `<p style="margin: 0;">${paso.text.replace(/\n/g, '<br>')}</p>`;
 
-    // Crear contenedor de opciones
     if (paso.options && paso.options.length > 0) {
         const divOpciones = document.createElement('div');
         divOpciones.className = 'chat-options';
+        divOpciones.style.cssText = 'display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;';
 
         paso.options.forEach(opcion => {
             const btn = document.createElement('button');
             btn.className = 'chat-btn';
             btn.textContent = opcion.text;
+            btn.style.cssText = 'background: var(--rose, #ff4757); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer;';
             
             btn.onclick = () => {
-                // Desactivar opciones anteriores para limpiar la interfaz
                 divOpciones.querySelectorAll('button').forEach(b => b.disabled = true);
-                
-                // Mostrar la selección del usuario como un mensaje rápido o continuar
                 if (opcion.next) {
                     mostrarPasoChat(opcion.next);
                 } else if (opcion.action) {
