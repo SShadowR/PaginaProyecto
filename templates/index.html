@@ -1028,11 +1028,13 @@ function mostrarPasoChat(pasoKey) {
         contenedorMensajes.appendChild(divMensaje);
         console.log("4. ¡Mensaje y opciones añadidos al DOM con éxito!");
 
+        // Scroll seguro dentro de la función
+        contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
+
     } catch (error) {
         console.log("¡ERROR CRÍTICO CAPTURADO:", error);
     }
-}    contenedorMensajes.appendChild(divMensaje);
-    contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     const originalCambiarSeccion = window.cambiarSeccion;
