@@ -495,11 +495,11 @@
             <div class="chat-messages" id="chat-messages"></div>
         </div>
     `;
-    setTimeout(() => {
+    requestAnimationFrame(() => {
         if (typeof mostrarPasoChat === 'function') {
             mostrarPasoChat('inicio');
         }
-    }, 50);
+    });
 } else if (seccion === 'emociones') {
         document.getElementById('nav-emociones').classList.add('active');
         container.innerHTML = `
