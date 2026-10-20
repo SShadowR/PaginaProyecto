@@ -415,18 +415,6 @@
     <div id="user-badge-container"></div>
 </nav>
 
-<!-- SECCIÓN CHAT DE ORIENTACIÓN ECLIPSE -->
-<section id="chat" style="display: none;">
-    <div class="chat-container">
-        <div class="chat-header">
-            <h3>🌙 CHAT DE ORIENTACIÓN ECLIPSE</h3>
-        </div>
-        <div class="chat-messages" id="chat-messages">
-            <!-- Los mensajes aparecerán aquí de forma dinámica -->
-        </div>
-    </div>
-</section>
-
     <!-- CONTENEDOR PRINCIPAL DINÁMICO -->
     <div class="main-container" id="app"></div>
 
@@ -1036,21 +1024,6 @@ function mostrarPasoChat(pasoKey) {
         console.log("¡ERROR CRÍTICO CAPTURADO:", error);
     }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    const originalCambiarSeccion = window.cambiarSeccion;
-    if (typeof originalCambiarSeccion === 'function') {
-        window.cambiarSeccion = function(seccion) {
-            originalCambiarSeccion(seccion);
-            if (seccion === 'chat') {
-                const mensajes = document.getElementById('chat-messages');
-                if (mensajes && mensajes.children.length === 0) {
-                    mostrarPasoChat('inicio');
-                }
-            }
-        };
-    }
-});
 </script>
 </body>
 </html>
