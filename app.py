@@ -40,6 +40,15 @@ class PublicacionForo(db.Model):
     ins_foro = db.Column(db.Boolean, default=False)
     ins_reto = db.Column(db.Boolean, default=False)
 
+# Modelo para los comentarios del Foro
+class ComentarioForo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    publicacion_id = db.Column(db.Integer, db.ForeignKey('publicacion_foro.id'), nullable=False)
+    autor_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    autor_nombre = db.Column(db.String(100), nullable=False)
+    texto = db.Column(db.Text, nullable=False)
+    fecha = db.Column(db.String(50), nullable=False)
+
 with app.app_context():
     db.create_all()
 
@@ -175,7 +184,9 @@ def gestionar_foro():
     pubs = PublicacionForo.query.order_by(PublicacionForo.id.desc()).all()
     resultado = []
     for p in pubs:
+        comentarios = ComentarioForo.query.filter_by(publicacion_id=p.id).order_by(ComentarioForo.id.asc()).all()
         resultado.append({
+            "id": p.id,
             "autor": p.autor_nombre,
             "texto": p.texto,
             "fecha": p.fecha,
@@ -184,9 +195,44 @@ def gestionar_foro():
                 "respiracion": p.ins_respiracion,
                 "foro": p.ins_foro,
                 "reto": p.ins_reto
-            }
+            },
+            "comentarios": [
+                {"autor": c.autor_nombre, "texto": c.texto, "fecha": c.fecha}
+                for c in comentarios
+            ]
         })
     return jsonify(resultado)
+
+# --- RUTA PARA COMENTAR EN EL FORO ---
+@app.route('/api/foro/comentar', methods=['POST'])
+def comentar_foro():
+    if 'usuario_id' not in session:
+        return "No autorizado", 401
+
+    data = request.get_json()
+    publicacion_id = data.get('publicacion_id')
+    texto = data.get('texto')
+    fecha = data.get('fecha') or datetime.now().strftime('%d/%m/%Y')
+
+    if not texto or not texto.strip():
+        return "Texto vacío", 400
+
+    publicacion = PublicacionForo.query.get(publicacion_id)
+    if not publicacion:
+        return "Publicación no encontrada", 404
+
+    usuario = Usuario.query.get(session['usuario_id'])
+
+    nuevo_comentario = ComentarioForo(
+        publicacion_id=publicacion.id,
+        autor_id=usuario.id,
+        autor_nombre=usuario.nombre,
+        texto=texto.strip(),
+        fecha=fecha
+    )
+    db.session.add(nuevo_comentario)
+    db.session.commit()
+    return "", 200
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
