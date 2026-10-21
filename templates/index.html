@@ -144,6 +144,22 @@
             color: #120f11;
         }
 
+        .btn-borrar {
+            background: transparent;
+            border: 1px solid var(--rose);
+            color: var(--rose);
+            padding: 2px 10px;
+            font-size: 0.72rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-borrar:hover {
+            background: var(--rose);
+            color: #120f11;
+        }
+
         .card {
             background: var(--bg-card);
             border: 1px solid var(--card-border);
@@ -212,6 +228,7 @@
         .forum-badges-inline {
             display: flex;
             gap: 6px;
+            align-items: center;
         }
 
         .forum-badge-tag {
@@ -548,6 +565,11 @@
                         if (ins.reto) insigniasHTML += `<span class="forum-badge-tag">⭐ Reto</span>`;
                     }
 
+                    let botonBorrarHTML = '';
+                    if (usuarioActual && p.autor === usuarioActual) {
+                        botonBorrarHTML = `<button class="btn-borrar" onclick="borrarPublicacion(${p.id})">🗑️ Borrar</button>`;
+                    }
+
                     let comentariosHTML = '';
                     if (p.comentarios && p.comentarios.length > 0) {
                         comentariosHTML = `<div style="margin-top: 12px; border-top: 1px solid var(--card-border); padding-top: 10px; display: flex; flex-direction: column; gap: 8px;">`;
@@ -565,7 +587,7 @@
                         <div class="forum-post">
                             <div class="forum-header-post">
                                 <span class="forum-author">${p.autor}</span>
-                                <div class="forum-badges-inline">${insigniasHTML}</div>
+                                <div class="forum-badges-inline">${insigniasHTML}${botonBorrarHTML}</div>
                             </div>
                             <div class="forum-content" style="margin-bottom: 10px;">${p.texto}</div>
                             ${comentariosHTML}
@@ -879,6 +901,19 @@
                 cambiarSeccion('foro');
             } else {
                 mostrarNotificacion("El mensaje no puede estar vacío.");
+            }
+        }
+
+        async function borrarPublicacion(pubId) {
+            if(!confirm("¿Seguro que quieres borrar este mensaje?")) return;
+
+            let res = await fetch(`/api/foro/${pubId}`, { method: 'DELETE' });
+
+            if(res.ok) {
+                mostrarNotificacion("Mensaje borrado.");
+                cambiarSeccion('foro');
+            } else {
+                mostrarNotificacion("No se pudo borrar el mensaje.");
             }
         }
 

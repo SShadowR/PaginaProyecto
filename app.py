@@ -234,6 +234,24 @@ def comentar_foro():
     db.session.commit()
     return "", 200
 
+# --- RUTA PARA BORRAR UNA PUBLICACIÓN PROPIA ---
+@app.route('/api/foro/<int:pub_id>', methods=['DELETE'])
+def borrar_publicacion(pub_id):
+    if 'usuario_id' not in session:
+        return "No autorizado", 401
+
+    publicacion = PublicacionForo.query.get(pub_id)
+    if not publicacion:
+        return "Publicación no encontrada", 404
+
+    if publicacion.autor_id != session['usuario_id']:
+        return "No puedes borrar mensajes de otros usuarios", 403
+
+    ComentarioForo.query.filter_by(publicacion_id=publicacion.id).delete()
+    db.session.delete(publicacion)
+    db.session.commit()
+    return "", 200
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
