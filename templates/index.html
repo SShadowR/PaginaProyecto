@@ -7,15 +7,15 @@
     <link rel="icon" type="image/png" href="/static/img/logo.png">
     <style>
         :root {
-            --bg-main: #fff7fa;
-            --bg-card: #221c1f;
-            --card-border: #382d33;
-            --text-main: #f5f0f2;
-            --text-muted: #b8a8b0;
-            --accent: #d4af37; /* Dorado */
-            --accent-glow: rgba(212, 175, 55, 0.2);
+            --bg-main: #3D2935;
+            --bg-card: #5B3B4C;
+            --card-border: #ffffff;
+            --text-main: #FFFFFF;
+            --text-muted: #F3DCE6;
+            --accent: #E8A9C4;
+            --accent-glow: rgba(232, 169, 196, 0.3);
             --rose: #c98ca5; 
-            --input-bg: #120f11;
+            --input-bg: #36232F;
         }
 
         * {
@@ -39,7 +39,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(24, 20, 22, 0.9);
+            background: rgba(61, 41, 53, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--card-border);
             display: flex;
@@ -111,7 +111,7 @@
 
         
         .btn {
-            background: linear-gradient(135deg, var(--accent), #b38f26);
+            background: linear-gradient(135deg, var(--accent), #C7789C);
             color: #120f11;
             border: none;
             padding: 12px 25px;
@@ -130,9 +130,9 @@
         }
 
         .btn-sm {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
+            background: #704B60;
+            border: 1px solid #E8A9C4;
+            color: #FFFFFF;
             padding: 8px 16px;
             font-size: 0.85rem;
             border-radius: 20px;
@@ -172,6 +172,7 @@
 
         .card:hover {
             border-color: var(--rose);
+            box-shadow: 0 4px 18px rgba(232, 169, 196, 0.12);
         }
 
         
@@ -201,7 +202,7 @@
         .emotion-card:hover {
             border-color: var(--accent);
             transform: translateY(-3px);
-            background: rgba(212, 175, 55, 0.05);
+            background: rgba(232, 169, 196, 0.08);
         }
 
         
@@ -265,6 +266,7 @@
 
         .input-group input:focus, .input-group textarea:focus {
             border-color: var(--accent);
+            box-shadow: 0 0 8px rgba(232, 169, 196, 0.25);
         }
 
         .input-group textarea {
@@ -720,7 +722,7 @@
             }
 
             contenedor.innerHTML = `
-                <div class="card" style="border-color: var(--accent); background: rgba(212, 175, 55, 0.04);">
+                <div class="card" style="border-color: var(--accent); background: rgba(232, 169, 196, 0.06);">
                     <h2 style="color: var(--accent); margin-bottom: 10px;">${titulo}</h2>
                     <p style="color: var(--text-main); margin-bottom: 15px;">${descripcion}</p>
                     <div class="input-group">
