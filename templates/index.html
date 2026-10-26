@@ -1047,6 +1047,37 @@
     filter: drop-shadow(0 0 5px rgba(205, 150, 255, 0.9));
 }
 
+
+/* ECLIPSE - AJUSTES PARA CELULARES */
+@media (max-width: 600px) {
+    .universo-section {
+        padding: 16px !important;
+        border-radius: 18px;
+    }
+
+    .universo-hero {
+        padding: 28px 16px !important;
+    }
+
+    .universo-luna {
+        filter:
+            brightness(1.12)
+            drop-shadow(0 0 12px rgba(255, 255, 255, 0.95))
+            drop-shadow(0 0 22px rgba(220, 160, 255, 0.85));
+    }
+
+    .universo-estrellas {
+        opacity: 1 !important;
+        filter: brightness(1.8) contrast(1.25);
+    }
+
+    .universo-card,
+    .universo-mensaje {
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+}
+
     </style>
 </head>
 <body>
