@@ -794,15 +794,30 @@
 
 /* Fondo decorativo: nunca bloquea los botones */
 
+
 .universo-cielo {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     overflow: hidden;
     pointer-events: none;
     color: #b28adf;
     border-radius: inherit;
+    background: rgba(230, 200, 255, 0.08);
 }
+
+.universo-section {
+    position: relative;
+    isolation: isolate;
+    background:
+        radial-gradient(ellipse at 15% 10%, rgba(246, 204, 231, 0.75), transparent 42%),
+        radial-gradient(ellipse at 90% 35%, rgba(215, 198, 255, 0.62), transparent 45%),
+        linear-gradient(145deg, #fff8fc, #f7f0ff 55%, #fff5fa);
+}
+
 
 .universo-section > :not(.universo-cielo) {
     position: relative;
