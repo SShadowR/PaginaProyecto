@@ -774,6 +774,185 @@
     }
 }
 
+
+/* ===== MI UNIVERSO: CIELO COSMICO PASTEL ===== */
+
+.universo-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 24px;
+    background:
+        radial-gradient(ellipse at 15% 10%,
+            rgba(246, 204, 231, 0.75), transparent 42%),
+        radial-gradient(ellipse at 90% 35%,
+            rgba(215, 198, 255, 0.62), transparent 45%),
+        linear-gradient(145deg, #fff8fc, #f7f0ff 55%, #fff5fa);
+    padding: clamp(18px, 4vw, 36px);
+    min-height: 650px;
+}
+
+/* Fondo decorativo: nunca bloquea los botones */
+
+.universo-cielo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    color: #b28adf;
+    border-radius: inherit;
+}
+
+.universo-section > :not(.universo-cielo) {
+    position: relative;
+    z-index: 1;
+}
+
+/* Nebulosa */
+
+.universo-nebulosa {
+    position: absolute;
+    width: 80%;
+    height: 55%;
+    top: 12%;
+    left: 10%;
+    border-radius: 50%;
+    background:
+        radial-gradient(ellipse,
+            rgba(231, 190, 246, 0.25),
+            rgba(255, 210, 235, 0.12) 45%,
+            transparent 72%);
+    filter: blur(18px);
+    animation: universoNebulosa 12s ease-in-out infinite alternate;
+}
+
+/* Luna */
+
+.universo-luna {
+    position: absolute;
+    top: 45px;
+    right: 9%;
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: #fffdfb;
+    box-shadow:
+        0 0 18px rgba(255, 255, 255, 0.9),
+        0 0 38px rgba(220, 177, 244, 0.65),
+        inset -8px -4px 15px rgba(211, 177, 237, 0.35);
+    animation: universoLuna 7s ease-in-out infinite;
+}
+
+.universo-luna::after {
+    content: "";
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    top: -5px;
+    left: 16px;
+    border-radius: 50%;
+    background: #f8f2ff;
+}
+
+/* Estrellas creadas con CSS */
+
+.universo-estrellas {
+    position: absolute;
+    inset: 0;
+    background-repeat: repeat;
+}
+
+.universo-estrellas-1 {
+    opacity: 0.8;
+    background-image:
+        radial-gradient(circle, #d59eea 1.4px, transparent 2px),
+        radial-gradient(circle, #ffffff 1.8px, transparent 2.5px),
+        radial-gradient(circle, #e5a7cc 1px, transparent 1.8px);
+    background-size: 95px 100px, 145px 130px, 73px 85px;
+    background-position: 5px 8px, 35px 42px, 18px 65px;
+    animation: universoBrillo 5s ease-in-out infinite alternate;
+}
+
+.universo-estrellas-2 {
+    opacity: 0.55;
+    background-image:
+        radial-gradient(circle, #ffffff 2px, transparent 3px),
+        radial-gradient(circle, #c6a0f0 1.2px, transparent 2px);
+    background-size: 180px 160px, 120px 115px;
+    background-position: 70px 20px, 12px 35px;
+    animation: universoBrillo 7s ease-in-out infinite alternate-reverse;
+}
+
+.universo-constelacion {
+    position: absolute;
+    width: min(320px, 75%);
+    top: 110px;
+    left: 2%;
+    opacity: 0.65;
+    animation: universoConstelacion 9s ease-in-out infinite alternate;
+}
+
+/* Movimiento delicado */
+
+@keyframes universoLuna {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+}
+
+@keyframes universoBrillo {
+    from { opacity: 0.35; }
+    to { opacity: 0.9; }
+}
+
+@keyframes universoNebulosa {
+    from { transform: scale(0.96) translateX(-8px); }
+    to { transform: scale(1.06) translateX(8px); }
+}
+
+@keyframes universoConstelacion {
+    from { transform: translateY(0); opacity: 0.4; }
+    to { transform: translateY(-7px); opacity: 0.75; }
+}
+
+/* Respeta a las personas que prefieren menos movimiento */
+
+@media (prefers-reduced-motion: reduce) {
+    .universo-luna,
+    .universo-estrellas,
+    .universo-nebulosa,
+    .universo-constelacion {
+        animation: none !important;
+    }
+}
+
+/* Ajustes para pantallas pequeñas */
+
+@media (max-width: 600px) {
+    .universo-section {
+        min-height: 500px;
+        padding: 18px;
+    }
+
+    .universo-luna {
+        width: 48px;
+        height: 48px;
+        top: 24px;
+        right: 7%;
+    }
+
+    .universo-luna::after {
+        width: 43px;
+        height: 43px;
+        left: 12px;
+        top: -4px;
+    }
+
+    .universo-constelacion {
+        top: 90px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -1081,6 +1260,41 @@
                     y construye tu propio universo.
                 </p>
             </div>
+
+            
+<div class="universo-cielo" aria-hidden="true">
+  <div class="universo-nebulosa"></div>
+  <div class="universo-luna"></div>
+
+  <div class="universo-estrellas universo-estrellas-1"></div>
+  <div class="universo-estrellas universo-estrellas-2"></div>
+
+  <svg class="universo-constelacion"
+       viewBox="0 0 320 200"
+       xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="currentColor"
+       stroke-width="0.8" opacity="0.55">
+      <path d="M35 45 L82 28 L113 70 L158 48 L188 90"/>
+      <path d="M215 30 L250 60 L282 42 L295 88"/>
+      <path d="M45 145 L78 119 L116 151 L145 130"/>
+    </g>
+    <g fill="currentColor">
+      <circle cx="35" cy="45" r="2.5"/>
+      <circle cx="82" cy="28" r="2"/>
+      <circle cx="113" cy="70" r="3"/>
+      <circle cx="158" cy="48" r="2"/>
+      <circle cx="188" cy="90" r="2.5"/>
+      <circle cx="215" cy="30" r="2"/>
+      <circle cx="250" cy="60" r="2.5"/>
+      <circle cx="282" cy="42" r="2"/>
+      <circle cx="295" cy="88" r="3"/>
+      <circle cx="45" cy="145" r="2"/>
+      <circle cx="78" cy="119" r="2.5"/>
+      <circle cx="116" cy="151" r="2"/>
+      <circle cx="145" cy="130" r="2.5"/>
+    </g>
+  </svg>
+</div>
 
             <div class="universo-grid">
                 <article class="universo-card">
