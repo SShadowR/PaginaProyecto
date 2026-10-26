@@ -7,13 +7,13 @@
     <link rel="icon" type="image/png" href="/static/img/logo.png">
     <style>
         :root {
-            --bg-main: #3D2935;
-            --bg-card: #5B3B4C;
-            --card-border: #ffffff;
-            --text-main: #FFFFFF;
-            --text-muted: #F3DCE6;
-            --accent: #E8A9C4;
-            --accent-glow: rgba(232, 169, 196, 0.3);
+            --bg-main: #F8C8DC;
+            --bg-card: #FFF7FA;
+            --card-border: #E8A9C4;
+            --text-main: #54243F;
+            --text-muted: #79556A;
+            --accent: #C7789C;
+            --accent-glow: rgba(199, 120, 156, 0.35);
             --rose: #c98ca5; 
             --input-bg: #36232F;
         }
@@ -111,22 +111,23 @@
 
         
         .btn {
-            background: linear-gradient(135deg, var(--accent), #C7789C);
-            color: #120f11;
-            border: none;
+            background: linear-gradient(135deg, #54243F, #713B5A);
+            color: #FFF7FA;
+            border: 1px solid #E8A9C4;
+            box-shadow: 0 4px 15px rgba(84, 36, 63, 0.18);
             padding: 12px 25px;
             font-weight: 600;
             border-radius: 30px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
             display: inline-block;
             text-decoration: none;
             text-align: center;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--accent-glow);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 22px rgba(84, 36, 63, 0.3);
         }
 
         .btn-sm {
@@ -211,6 +212,70 @@
             0 0 35px #C7789C;
     }
 }    
+
+@keyframes eclipseEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+        filter: blur(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes eclipseBrillo {
+    0%, 100% {
+        text-shadow:
+            0 0 5px #FFFFFF,
+            0 0 10px #E8A9C4,
+            0 0 20px #E8A9C4,
+            0 0 40px #C7789C;
+    }
+    50% {
+        text-shadow:
+            0 0 8px #FFFFFF,
+            0 0 16px #E8A9C4,
+            0 0 30px #E8A9C4,
+            0 0 55px #C7789C;
+    }
+}
+
+.hero-section h1 {
+    animation:
+        eclipseEntrada 1.2s ease-out both,
+        eclipseBrillo 3s ease-in-out 1.2s infinite;
+}
+
+.hero-section h1 span {
+    display: inline-block;
+    animation: eclipseEntrada 1s ease-out 0.3s both;
+}
+
+.hero-section p:first-of-type {
+    animation: eclipseEntrada 1s ease-out 0.45s both;
+}
+
+.hero-section p:nth-of-type(2) {
+    animation: eclipseEntrada 1s ease-out 0.7s both;
+}
+
+.hero-section .btn,
+.hero-section .btn-sm {
+    animation: eclipseEntrada 0.9s ease-out 0.95s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-section h1,
+    .hero-section h1 span,
+    .hero-section p,
+    .hero-section .btn,
+    .hero-section .btn-sm {
+        animation: none !important;
+    }
+}
 
         
         .emotions-grid {
@@ -440,6 +505,99 @@
     background: var(--rose, #e06c75);
     color: #fff;
 }
+
+
+/* ===== ESTRELLAS FLOTANTES ECLIPSE ===== */
+
+.eclipse-stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.eclipse-star {
+    position: absolute;
+    bottom: -20px;
+    color: #F8C9DE;
+    opacity: 0;
+    font-size: 12px;
+    text-shadow: 0 0 6px #E8A9C4, 0 0 14px #C7789C;
+    animation: estrellaFlotante linear infinite;
+}
+
+@keyframes estrellaFlotante {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(0.7);
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.8;
+    }
+    75% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(180deg) scale(1.2);
+        opacity: 0;
+    }
+}
+
+.eclipse-star:nth-child(1) {
+    left: 8%;
+    animation-duration: 12s;
+}
+
+.eclipse-star:nth-child(2) {
+    left: 22%;
+    animation-duration: 16s;
+    animation-delay: 3s;
+}
+
+.eclipse-star:nth-child(3) {
+    left: 38%;
+    animation-duration: 13s;
+    animation-delay: 6s;
+}
+
+.eclipse-star:nth-child(4) {
+    left: 55%;
+    animation-duration: 17s;
+    animation-delay: 2s;
+}
+
+.eclipse-star:nth-child(5) {
+    left: 72%;
+    animation-duration: 14s;
+    animation-delay: 5s;
+}
+
+.eclipse-star:nth-child(6) {
+    left: 88%;
+    animation-duration: 18s;
+    animation-delay: 1s;
+}
+
+.eclipse-star:nth-child(7) {
+    left: 46%;
+    animation-duration: 19s;
+    animation-delay: 8s;
+}
+
+.eclipse-star:nth-child(8) {
+    left: 95%;
+    animation-duration: 15s;
+    animation-delay: 4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .eclipse-star {
+        animation: none;
+        display: none;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -517,6 +675,18 @@
         document.getElementById('nav-inicio').classList.add('active');
         container.innerHTML = `
             <div class="hero-section" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/iniciof.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; width: 100vw; min-height: 100vh; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                
+                <div class="eclipse-stars" aria-hidden="true">
+                    <span class="eclipse-star">✦</span>
+                    <span class="eclipse-star">✦</span>
+                    <span class="eclipse-star">✦</span>
+                    <span class="eclipse-star">✦</span>
+                    <span class="eclipse-star">✦</span>
+                    <span class="eclipse-star">✦</span>
+                    <span class="eclipse-star">✦</span>
+                    <span class="eclipse-star">✦</span>
+                </div>
+
                 <h1>ECLIPSE <span>🌙</span></h1>
                 <p style="font-size: 1.2rem; color: var(--rose); margin-bottom: 10px;">"Un espacio para cuidarte, conocerte y volver a encontrarte."</p>
                 <p style="max-width: 600px; margin: 0 auto 30px auto;">Tu bienestar también merece un espacio. No tienes que convertirte en otra persona para sentirte bien.</p>
