@@ -968,6 +968,54 @@
     }
 }
 
+
+/* FIX VISUAL DEL UNIVERSO ECLIPSE */
+.universo-section {
+    position: relative !important;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 15% 10%, rgba(246, 204, 231, 0.75), transparent 42%),
+        radial-gradient(ellipse at 90% 35%, rgba(215, 198, 255, 0.62), transparent 45%),
+        linear-gradient(145deg, #fff8fc, #f7f0ff 55%, #fff5fa);
+}
+
+.universo-cielo {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+    overflow: hidden;
+}
+
+/* Deja que el cielo se vea detrás del encabezado */
+.universo-hero {
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,.58), transparent 28%),
+        radial-gradient(circle at 85% 80%, rgba(199,120,156,.15), transparent 35%),
+        linear-gradient(135deg, rgba(255,247,250,.48), rgba(248,217,230,.55), rgba(244,195,216,.48)) !important;
+}
+
+/* Conserva la legibilidad de las tarjetas */
+.universo-card {
+    background: rgba(255, 247, 250, 0.86) !important;
+    backdrop-filter: blur(4px);
+}
+
+.universo-mensaje {
+    background: rgba(255, 247, 250, 0.82);
+    backdrop-filter: blur(4px);
+}
+
+/* Mantiene el contenido por delante del cielo */
+.universo-section > :not(.universo-cielo) {
+    position: relative;
+    z-index: 1;
+}
+
     </style>
 </head>
 <body>
@@ -1276,7 +1324,6 @@
                 </p>
             </div>
 
-            
 <div class="universo-cielo" aria-hidden="true">
   <div class="universo-nebulosa"></div>
   <div class="universo-luna"></div>
