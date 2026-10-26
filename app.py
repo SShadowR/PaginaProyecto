@@ -53,6 +53,30 @@ class ComentarioForo(db.Model):
     texto = db.Column(db.Text, nullable=False)
     fecha = db.Column(db.String(50), nullable=False)
 
+    
+# --- MODELO DE MI UNIVERSO (Privado por usuario) ---
+class UniversoPersonal(db.Model):
+    __tablename__ = 'universo_personal'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    usuario_id = db.Column(
+        db.Integer,
+        db.ForeignKey('usuario.id'),
+        unique=True,
+        nullable=False
+    )
+
+    # Aquí se guardarán las estrellas, metas y reflexiones.
+    contenido = db.Column(db.JSON, nullable=False, default=dict)
+
+    actualizado_en = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow
+    )
+
 with app.app_context():
     db.create_all()
 
@@ -255,6 +279,76 @@ def borrar_publicacion(pub_id):
     db.session.delete(publicacion)
     db.session.commit()
     return "", 200
+
+
+# --- API DE MI UNIVERSO ---
+
+@app.route('/api/universo', methods=['GET'])
+def obtener_universo():
+    if 'usuario_id' not in session:
+        return jsonify({"error": "Debes iniciar sesión"}), 401
+
+    universo = UniversoPersonal.query.filter_by(
+        usuario_id=session['usuario_id']
+    ).first()
+
+    if not universo:
+        return jsonify({"contenido": {}}), 200
+
+    return jsonify({
+        "contenido": universo.contenido,
+        "actualizado_en": (
+            universo.actualizado_en.isoformat()
+            if universo.actualizado_en else None
+        )
+    }), 200
+
+
+@app.route('/api/universo', methods=['PUT'])
+def guardar_universo():
+    if 'usuario_id' not in session:
+        return jsonify({"error": "Debes iniciar sesión"}), 401
+
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        return jsonify({"error": "Datos JSON inválidos"}), 400
+
+    contenido = data.get('contenido')
+
+    if not isinstance(contenido, dict):
+        return jsonify({
+            "error": "El contenido debe ser un objeto JSON"
+        }), 400
+
+    # Límite inicial para evitar guardar cargas excesivas.
+    if len(request.get_data()) > 100_000:
+        return jsonify({"error": "El contenido es demasiado grande"}), 413
+
+    universo = UniversoPersonal.query.filter_by(
+        usuario_id=session['usuario_id']
+    ).first()
+
+    if universo is None:
+        universo = UniversoPersonal(
+            usuario_id=session['usuario_id'],
+            contenido=contenido
+        )
+        db.session.add(universo)
+    else:
+        universo.contenido = contenido
+
+    try:
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        app.logger.exception("Error guardando Mi Universo")
+        return jsonify({"error": "No se pudo guardar el universo"}), 500
+
+    return jsonify({
+        "mensaje": "Universo guardado correctamente",
+        "contenido": universo.contenido
+    }), 200
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

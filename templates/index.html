@@ -599,6 +599,181 @@
     }
 }
 
+/* ===== MI UNIVERSO ECLIPSE ===== */
+
+.universo-section {
+    padding: 25px 0;
+    color: var(--text-main);
+}
+
+.universo-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 45px 25px;
+    margin-bottom: 25px;
+    text-align: center;
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,.9), transparent 28%),
+        radial-gradient(circle at 85% 80%, rgba(199,120,156,.22), transparent 35%),
+        linear-gradient(135deg, #FFF7FA, #F8D9E6, #F4C3D8);
+    box-shadow: 0 10px 35px rgba(84,36,63,.08);
+}
+
+.universo-eyebrow {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: var(--accent);
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.universo-hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.7rem);
+}
+
+.universo-hero h1 span {
+    color: var(--accent);
+}
+
+.universo-hero p {
+    max-width: 600px;
+    margin: 12px auto 0;
+}
+
+.universo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.universo-card {
+    padding: 25px;
+    text-align: center;
+    background: var(--bg-card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(84,36,63,.05);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.universo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(84,36,63,.12);
+}
+
+.universo-icono {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+}
+
+.universo-card h3 {
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.universo-card p {
+    font-size: .92rem;
+}
+
+.universo-mensaje {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+    padding: 22px;
+    text-align: center;
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    background: rgba(255,247,250,.65);
+}
+
+.universo-mensaje p {
+    margin: 0;
+    font-style: italic;
+}
+
+.universo-mensaje span {
+    color: var(--accent);
+    font-size: 1.3rem;
+}
+
+@media (max-width: 600px) {
+    .universo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .universo-hero {
+        padding: 32px 18px;
+    }
+
+    .universo-card {
+        padding: 22px 18px;
+    }
+}
+
+
+/* Elementos guardados en Mi Universo */
+
+.universo-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 18px;
+    text-align: left;
+}
+
+.universo-elemento {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background: #FFF7FA;
+    overflow-wrap: anywhere;
+}
+
+.universo-elemento p {
+    flex: 1;
+    margin: 0;
+    color: var(--text-main);
+    white-space: pre-wrap;
+}
+
+.universo-vacio {
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.universo-elemento .btn-borrar {
+    flex-shrink: 0;
+}
+
+.universo-card .input-group {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.universo-card .input-group input,
+.universo-card .input-group textarea {
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 400px) {
+    .universo-elemento {
+        flex-direction: column;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -619,6 +794,7 @@
         <li><a id="nav-foro" onclick="cambiarSeccion('foro')">Foro</a></li>
         <li><a id="nav-portafolios" onclick="cambiarSeccion('portafolios')">Portafolios</a></li>
         <li><a id="nav-diario" onclick="cambiarSeccion('diario')">Mi Diario</a></li>
+        <li><a id="nav-universo" onclick="cambiarSeccion('universo')">Mi Universo</a></li>
         <li><a id="nav-auth" onclick="cambiarSeccion('auth')">Cuenta</a></li>
         <li><a id="nav-chat" href="javascript:void(0);" onclick="cambiarSeccion('chat')">Chat de Orientación</a></li>
     </ul>
@@ -876,6 +1052,117 @@
                         <div style="margin-top: 15px;">${htmlEntradas.length > 0 ? htmlEntradas : '<p style="color:var(--text-muted); font-size:0.9rem;">Aún no tienes entradas registradas.</p>'}</div>
                     </div>
                 `;
+
+               
+} else if (seccion === 'universo') {
+    document.getElementById('nav-universo').classList.add('active');
+
+    if (!usuarioActual) {
+        container.innerHTML = `
+            <div class="card" style="text-align:center; padding:40px 20px;">
+                <h1>Mi Universo <span>✨</span></h1>
+                <p>Inicia sesión para crear y guardar tu universo personal.</p>
+                <button class="btn" onclick="cambiarSeccion('auth')">
+                    Iniciar sesión 🌙
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = `
+        <section class="universo-section">
+            <div class="universo-hero">
+                <span class="universo-eyebrow">TU ESPACIO PERSONAL</span>
+                <h1>Mi Universo <span>✦</span></h1>
+                <p>
+                    Cada estrella representa una parte de ti.
+                    Explora tus sueños, reconoce tu crecimiento
+                    y construye tu propio universo.
+                </p>
+            </div>
+
+            <div class="universo-grid">
+                <article class="universo-card">
+                    <span class="universo-icono">🌟</span>
+                    <h3>Mis sueños</h3>
+                    <p>Los objetivos que quiero alcanzar.</p>
+                    <div class="input-group">
+                        <input id="universo-input-suenos"
+                            maxlength="500"
+                            placeholder="Ej. Cumplir una meta personal"
+                            style="background:#FFF7FA;color:#54243F;">
+                    </div>
+                    <button class="btn-sm" onclick="guardarElementoUniverso('suenos')">
+                        Añadir sueño ✨
+                    </button>
+                    <div id="universo-lista-suenos" class="universo-lista"></div>
+                </article>
+
+                <article class="universo-card">
+                    <span class="universo-icono">💗</span>
+                    <h3>Mi amor propio</h3>
+                    <p>Las cualidades que me hacen especial.</p>
+                    <div class="input-group">
+                        <input id="universo-input-amorPropio"
+                            maxlength="500"
+                            placeholder="Ej. Soy una persona perseverante"
+                            style="background:#FFF7FA;color:#54243F;">
+                    </div>
+                    <button class="btn-sm" onclick="guardarElementoUniverso('amorPropio')">
+                        Añadir cualidad 💗
+                    </button>
+                    <div id="universo-lista-amorPropio" class="universo-lista"></div>
+                </article>
+
+                <article class="universo-card">
+                    <span class="universo-icono">🌙</span>
+                    <h3>Mis reflexiones</h3>
+                    <p>Lo que he aprendido durante mi camino.</p>
+                    <div class="input-group">
+                        <textarea id="universo-input-reflexiones"
+                            maxlength="500"
+                            placeholder="Escribe una reflexión..."
+                            style="background:#FFF7FA;color:#54243F;min-height:90px;"></textarea>
+                    </div>
+                    <button class="btn-sm" onclick="guardarElementoUniverso('reflexiones')">
+                        Guardar reflexión 🌙
+                    </button>
+                    <div id="universo-lista-reflexiones" class="universo-lista"></div>
+                </article>
+
+                <article class="universo-card">
+                    <span class="universo-icono">🪐</span>
+                    <h3>Mi crecimiento</h3>
+                    <p>Los pequeños pasos que me acercan a mis metas.</p>
+                    <div class="input-group">
+                        <input id="universo-input-crecimiento"
+                            maxlength="500"
+                            placeholder="Ej. Hoy dediqué tiempo a mí"
+                            style="background:#FFF7FA;color:#54243F;">
+                    </div>
+                    <button class="btn-sm" onclick="guardarElementoUniverso('crecimiento')">
+                        Registrar avance 🪐
+                    </button>
+                    <div id="universo-lista-crecimiento" class="universo-lista"></div>
+                </article>
+            </div>
+
+            <div class="universo-mensaje">
+                <span>✧</span>
+                <p>
+                    No necesitas brillar todos los días.
+                    Incluso en la oscuridad sigues siendo parte
+                    de algo hermoso.
+                </p>
+                <span>✧</span>
+            </div>
+        </section>
+    `;
+
+    await cargarUniverso();
+
+
             } else if (seccion === 'auth') {
                 document.getElementById('nav-auth').classList.add('active');
                 if (usuarioActual) {
@@ -909,6 +1196,192 @@
                 }
             }
         }
+
+        
+/* ===== DATOS Y FUNCIONES DE MI UNIVERSO ===== */
+
+let universoContenido = {
+    suenos: [],
+    amorPropio: [],
+    reflexiones: [],
+    crecimiento: []
+};
+
+const universoCategorias = {
+    suenos: {
+        input: 'universo-input-suenos',
+        lista: 'universo-lista-suenos'
+    },
+    amorPropio: {
+        input: 'universo-input-amorPropio',
+        lista: 'universo-lista-amorPropio'
+    },
+    reflexiones: {
+        input: 'universo-input-reflexiones',
+        lista: 'universo-lista-reflexiones'
+    },
+    crecimiento: {
+        input: 'universo-input-crecimiento',
+        lista: 'universo-lista-crecimiento'
+    }
+};
+
+function escaparHTML(texto) {
+    return String(texto).replace(/[&<>"']/g, caracter => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    })[caracter]);
+}
+
+async function cargarUniverso() {
+    try {
+        const respuesta = await fetch('/api/universo');
+
+        if (respuesta.status === 401) {
+            mostrarNotificacion('Tu sesión terminó. Inicia sesión de nuevo.');
+            usuarioActual = null;
+            await verificarSesion();
+            cambiarSeccion('auth');
+            return;
+        }
+
+        if (!respuesta.ok) {
+            throw new Error('No se pudo consultar el universo.');
+        }
+
+        const datos = await respuesta.json();
+        const contenido = datos.contenido || {};
+
+        universoContenido = {
+            suenos: Array.isArray(contenido.suenos) ? contenido.suenos : [],
+            amorPropio: Array.isArray(contenido.amorPropio) ? contenido.amorPropio : [],
+            reflexiones: Array.isArray(contenido.reflexiones) ? contenido.reflexiones : [],
+            crecimiento: Array.isArray(contenido.crecimiento) ? contenido.crecimiento : []
+        };
+
+        mostrarElementosUniverso();
+    } catch (error) {
+        console.error('Error cargando Mi Universo:', error);
+        mostrarNotificacion('No se pudo cargar tu universo. Inténtalo de nuevo.');
+    }
+}
+
+function mostrarElementosUniverso() {
+    for (const categoria of Object.keys(universoCategorias)) {
+        const configuracion = universoCategorias[categoria];
+        const lista = document.getElementById(configuracion.lista);
+
+        if (!lista) continue;
+
+        lista.innerHTML = universoContenido[categoria].map((elemento, indice) => `
+            <div class="universo-elemento">
+                <p>${escaparHTML(elemento)}</p>
+                <button
+                    class="btn-borrar"
+                    onclick="eliminarElementoUniverso('${categoria}', ${indice})"
+                    aria-label="Eliminar elemento">
+                    Eliminar
+                </button>
+            </div>
+        `).join('');
+
+        if (universoContenido[categoria].length === 0) {
+            lista.innerHTML = '<p class="universo-vacio">Todavía no has añadido nada.</p>';
+        }
+    }
+}
+
+async function guardarDatosUniverso() {
+    const respuesta = await fetch('/api/universo', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            contenido: universoContenido
+        })
+    });
+
+    if (respuesta.status === 401) {
+        throw new Error('Tu sesión terminó. Inicia sesión de nuevo.');
+    }
+
+    if (!respuesta.ok) {
+        throw new Error('No se pudieron guardar los cambios.');
+    }
+
+    return true;
+}
+
+async function guardarElementoUniverso(categoria) {
+    if (!usuarioActual) {
+        mostrarNotificacion('Inicia sesión para guardar tus datos.');
+        cambiarSeccion('auth');
+        return;
+    }
+
+    const configuracion = universoCategorias[categoria];
+
+    if (!configuracion) return;
+
+    const campo = document.getElementById(configuracion.input);
+    const texto = campo.value.trim();
+
+    if (!texto) {
+        mostrarNotificacion('Escribe algo antes de guardar.');
+        campo.focus();
+        return;
+    }
+
+    if (texto.length > 500) {
+        mostrarNotificacion('El texto no puede superar los 500 caracteres.');
+        return;
+    }
+
+    if (universoContenido[categoria].length >= 100) {
+        mostrarNotificacion('Has alcanzado el máximo de 100 elementos en esta categoría.');
+        return;
+    }
+
+    const contenidoAnterior = [...universoContenido[categoria]];
+    universoContenido[categoria].push(texto);
+
+    try {
+        await guardarDatosUniverso();
+        campo.value = '';
+        mostrarElementosUniverso();
+        mostrarNotificacion('¡Guardado en tu universo! ✨');
+    } catch (error) {
+        universoContenido[categoria] = contenidoAnterior;
+        console.error('Error guardando Mi Universo:', error);
+        mostrarNotificacion(error.message || 'No se pudo guardar. Inténtalo de nuevo.');
+    }
+}
+
+async function eliminarElementoUniverso(categoria, indice) {
+    if (!universoCategorias[categoria]) return;
+
+    if (!confirm('¿Quieres eliminar este elemento de tu universo?')) {
+        return;
+    }
+
+    const contenidoAnterior = [...universoContenido[categoria]];
+    universoContenido[categoria].splice(indice, 1);
+
+    try {
+        await guardarDatosUniverso();
+        mostrarElementosUniverso();
+        mostrarNotificacion('Elemento eliminado.');
+    } catch (error) {
+        universoContenido[categoria] = contenidoAnterior;
+        mostrarElementosUniverso();
+        console.error('Error eliminando elemento:', error);
+        mostrarNotificacion(error.message || 'No se pudo eliminar. Inténtalo de nuevo.');
+    }
+}
 
         function verDetalleServicio(tipo) {
             const contenedor = document.getElementById('detalle-servicio-container');
