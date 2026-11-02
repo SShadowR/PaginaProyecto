@@ -1748,6 +1748,7 @@ async function eliminarElementoUniverso(categoria, indice) {
             contenedor.scrollIntoView({ behavior: 'smooth' });
         }
 
+
 async function enviarSolicitudServicio(tipo) {
     const campo = document.getElementById('solicitud-servicio-texto');
     const texto = campo.value.trim();
@@ -1757,7 +1758,6 @@ async function enviarSolicitudServicio(tipo) {
         return;
     }
 
-    // Orientación personalizada conserva su funcionamiento actual.
     if (tipo === 'orientacion') {
         mostrarNotificacion("¡Solicitud enviada con éxito!");
         campo.value = '';
@@ -1772,9 +1772,7 @@ async function enviarSolicitudServicio(tipo) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                mensaje: texto
-            })
+            body: JSON.stringify({ mensaje: texto })
         });
 
         const resultado = await respuesta.json();
