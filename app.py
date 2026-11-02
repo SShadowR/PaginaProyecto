@@ -4,6 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
+from flask import current_app
+from email.message import EmailMessage
+import smtplib
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'clave_secreta_segura'
 database_url = os.environ.get('DATABASE_URL', 'sqlite:///usuarios.db')
@@ -14,6 +18,89 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_pre_ping': True, 'pool_recycle'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+# --- CONFIGURACIÓN DEL CORREO DE ECLIPSE ---
+
+def enviar_correo_asesoria(usuario, mensaje):
+
+    correo_origen = os.environ.get('MAIL_USERNAME')
+    correo_password = os.environ.get('MAIL_PASSWORD')
+    correo_destino = os.environ.get('MAIL_RECEIVER')
+
+    if not correo_origen or not correo_password or not correo_destino:
+        app.logger.error("Faltan variables de configuración del correo")
+        return False
+
+    email = EmailMessage()
+    email['Subject'] = f'Nueva asesoría individual - ECLIPSE'
+    email['From'] = correo_origen
+    email['To'] = correo_destino
+
+    email.set_content(f"""
+Nueva consulta recibida desde ECLIPSE 🌙
+
+Usuario: {usuario}
+Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M')}
+
+Mensaje:
+{mensaje}
+""")
+
+    try:
+        with smtplib.SMTP('smtp.gmail.com', 587) as servidor:
+            servidor.starttls()
+            servidor.login(correo_origen, correo_password)
+            servidor.send_message(email)
+
+        return True
+
+    except Exception:
+        app.logger.exception("Error enviando correo de asesoría")
+        return False
+
+# --- API DE ASESORÍAS INDIVIDUALES ---
+
+@app.route('/api/asesorias', methods=['POST'])
+def enviar_asesoria():
+
+    if 'usuario_id' not in session:
+        return jsonify({
+            "error": "Debes iniciar sesión para enviar una asesoría"
+        }), 401
+
+    data = request.get_json(silent=True) or {}
+    mensaje = data.get('mensaje', '')
+
+    if not isinstance(mensaje, str) or not mensaje.strip():
+        return jsonify({
+            "error": "Escribe un mensaje antes de enviarlo"
+        }), 400
+
+    if len(mensaje) > 5000:
+        return jsonify({
+            "error": "El mensaje no puede superar los 5000 caracteres"
+        }), 400
+
+    usuario = Usuario.query.get(session['usuario_id'])
+
+    if not usuario:
+        return jsonify({
+            "error": "Usuario no encontrado"
+        }), 404
+
+    enviado = enviar_correo_asesoria(
+        usuario.nombre,
+        mensaje.strip()
+    )
+
+    if not enviado:
+        return jsonify({
+            "error": "No pudimos enviar tu mensaje. Inténtalo nuevamente."
+        }), 500
+
+    return jsonify({
+        "mensaje": "¡Tu consulta fue enviada correctamente!"
+    }), 200
 
 # Modelo de Usuario
 class Usuario(db.Model):

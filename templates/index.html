@@ -1748,15 +1748,56 @@ async function eliminarElementoUniverso(categoria, indice) {
             contenedor.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function enviarSolicitudServicio(tipo) {
-            const texto = document.getElementById('solicitud-servicio-texto').value;
-            if(!texto.trim()) {
-                mostrarNotificacion("Por favor escribe un breve mensaje antes de enviar.");
-                return;
-            }
-            mostrarNotificacion("¡Solicitud enviada con éxito! Nos pondremos en contacto pronto.");
-            document.getElementById('solicitud-servicio-texto').value = '';
+async function enviarSolicitudServicio(tipo) {
+    const campo = document.getElementById('solicitud-servicio-texto');
+    const texto = campo.value.trim();
+
+    if (!texto) {
+        mostrarNotificacion("Por favor escribe un mensaje antes de enviar.");
+        return;
+    }
+
+    // Orientación personalizada conserva su funcionamiento actual.
+    if (tipo === 'orientacion') {
+        mostrarNotificacion("¡Solicitud enviada con éxito!");
+        campo.value = '';
+        return;
+    }
+
+    try {
+        mostrarNotificacion("Enviando tu consulta... 🌙");
+
+        const respuesta = await fetch('/api/asesorias', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                mensaje: texto
+            })
+        });
+
+        const resultado = await respuesta.json();
+
+        if (respuesta.status === 401) {
+            mostrarNotificacion("Debes iniciar sesión para enviar tu consulta.");
+            cambiarSeccion('auth');
+            return;
         }
+
+        if (!respuesta.ok) {
+            mostrarNotificacion(resultado.error || "No se pudo enviar tu consulta.");
+            return;
+        }
+
+        mostrarNotificacion("¡Tu consulta llegó correctamente a ECLIPSE! 💗");
+        campo.value = '';
+
+    } catch (error) {
+        console.error("Error enviando asesoría:", error);
+        mostrarNotificacion("Error de conexión. Inténtalo nuevamente.");
+    }
+}
 
         function verDetallePortafolio(tipo) {
             const contenedor = document.getElementById('detalle-portafolio-container');
