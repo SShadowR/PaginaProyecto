@@ -28,6 +28,12 @@ def enviar_correo_asesoria(usuario, mensaje):
     correo_destino = os.environ.get('MAIL_RECEIVER')
 
     if not correo_origen or not correo_password or not correo_destino:
+        app.logger.error(
+    "Configuración de correo: usuario=%s, contraseña=%s, destinatario=%s",
+    bool(correo_origen),
+    bool(correo_password),
+    bool(correo_destino)
+)
         app.logger.error("Faltan variables de configuración del correo")
         return False
 
@@ -92,6 +98,8 @@ def enviar_asesoria():
         usuario.nombre,
         mensaje.strip()
     )
+
+    app.logger.info("Resultado del envío de asesoría: %s", enviado)
 
     if not enviado:
         return jsonify({
