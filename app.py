@@ -4,9 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
-from flask import current_app
-from email.message import EmailMessage
-import smtplib
+import json
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'clave_secreta_segura'
@@ -23,26 +23,19 @@ db = SQLAlchemy(app)
 
 def enviar_correo_asesoria(usuario, mensaje):
 
-    correo_origen = os.environ.get('MAIL_USERNAME')
-    correo_password = os.environ.get('MAIL_PASSWORD')
+    api_key = os.environ.get('RESEND_API_KEY')
     correo_destino = os.environ.get('MAIL_RECEIVER')
+    correo_origen = os.environ.get('MAIL_FROM')
 
-    if not correo_origen or not correo_password or not correo_destino:
-        app.logger.error(
-    "Configuración de correo: usuario=%s, contraseña=%s, destinatario=%s",
-    bool(correo_origen),
-    bool(correo_password),
-    bool(correo_destino)
-)
-        app.logger.error("Faltan variables de configuración del correo")
+    if not api_key or not correo_destino or not correo_origen:
+        app.logger.error("Faltan variables de configuración de Resend")
         return False
 
-    email = EmailMessage()
-    email['Subject'] = f'Nueva asesoría individual - ECLIPSE'
-    email['From'] = correo_origen
-    email['To'] = correo_destino
-
-    email.set_content(f"""
+    payload = {
+        "from": correo_origen,
+        "to": [correo_destino],
+        "subject": "Nueva asesoría individual - ECLIPSE",
+        "text": f"""
 Nueva consulta recibida desde ECLIPSE 🌙
 
 Usuario: {usuario}
@@ -50,18 +43,35 @@ Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M')}
 
 Mensaje:
 {mensaje}
-""")
+"""
+    }
+
+    solicitud = Request(
+        "https://api.resend.com/emails",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        },
+        method="POST"
+    )
 
     try:
-        with smtplib.SMTP('smtp.gmail.com', 587) as servidor:
-            servidor.starttls()
-            servidor.login(correo_origen, correo_password)
-            servidor.send_message(email)
+        with urlopen(solicitud, timeout=20) as respuesta:
+            app.logger.info("Resend respondió HTTP %s", respuesta.status)
+            return 200 <= respuesta.status < 300
 
-        return True
+    except HTTPError as error:
+        detalle = error.read().decode("utf-8", errors="replace")
+        app.logger.error(
+            "Resend rechazó el correo (HTTP %s): %s",
+            error.code,
+            detalle
+        )
+        return False
 
     except Exception:
-        app.logger.exception("Error enviando correo de asesoría")
+        app.logger.exception("Error conectando con Resend")
         return False
 
 # --- API DE ASESORÍAS INDIVIDUALES ---
