@@ -21,58 +21,61 @@ db = SQLAlchemy(app)
 
 # --- CONFIGURACIÓN DEL CORREO DE ECLIPSE ---
 
+
 def enviar_correo_asesoria(usuario, mensaje):
 
-    api_key = os.environ.get('RESEND_API_KEY')
-    correo_destino = os.environ.get('MAIL_RECEIVER')
-    correo_origen = os.environ.get('MAIL_FROM')
+    script_url = os.environ.get('GOOGLE_SCRIPT_URL')
+    token = os.environ.get('GOOGLE_SCRIPT_TOKEN')
 
-    if not api_key or not correo_destino or not correo_origen:
-        app.logger.error("Faltan variables de configuración de Resend")
+    if not script_url or not token:
+        app.logger.error("Falta configuración de Google Apps Script")
         return False
 
     payload = {
-        "from": correo_origen,
-        "to": [correo_destino],
-        "subject": "Nueva asesoría individual - ECLIPSE",
-        "text": f"""
-Nueva consulta recibida desde ECLIPSE 🌙
-
-Usuario: {usuario}
-Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M')}
-
-Mensaje:
-{mensaje}
-"""
+        "usuario": usuario,
+        "mensaje": mensaje,
+        "token": token
     }
 
     solicitud = Request(
-        "https://api.resend.com/emails",
+        script_url,
         data=json.dumps(payload).encode("utf-8"),
         headers={
-            "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json"
         },
         method="POST"
     )
 
     try:
-        with urlopen(solicitud, timeout=20) as respuesta:
-            app.logger.info("Resend respondió HTTP %s", respuesta.status)
-            return 200 <= respuesta.status < 300
+        with urlopen(solicitud, timeout=30) as respuesta:
+
+            resultado = json.loads(
+                respuesta.read().decode("utf-8")
+            )
+
+            if respuesta.status == 200 and "mensaje" in resultado:
+                app.logger.info("Asesoría enviada correctamente a Google Apps Script")
+                return True
+
+            app.logger.error(
+                "Google Apps Script devolvió un error: %s",
+                resultado
+            )
+            return False
 
     except HTTPError as error:
         detalle = error.read().decode("utf-8", errors="replace")
         app.logger.error(
-            "Resend rechazó el correo (HTTP %s): %s",
+            "Google Apps Script HTTP %s: %s",
             error.code,
             detalle
         )
         return False
 
     except Exception:
-        app.logger.exception("Error conectando con Resend")
+        app.logger.exception("Error conectando con Google Apps Script")
         return False
+
 
 # --- API DE ASESORÍAS INDIVIDUALES ---
 
