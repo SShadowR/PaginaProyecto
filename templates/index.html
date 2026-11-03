@@ -1181,7 +1181,7 @@
                     <h1>ECLIPSE <span>🌙</span></h1>
                 </div>
                 <p style="font-size: 1.2rem; color: var(--rose); margin-bottom: 10px;">"Un espacio para cuidarte, conocerte y volver a encontrarte."</p>
-                <p style="max-width: 600px; margin: 0 auto 30px auto;">Tu bienestar también merece un espacio. No tienes que convertirte en otra persona para sentirte bien.</p>
+                <p style="max-width: 600px; margin: 0 auto 30px auto; color: white;">Tu bienestar también merece un espacio. No tienes que convertirte en otra persona para sentirte bien.</p>
                 <div style="display: flex; gap: 15px; justify-content: center;">
                     <button class="btn" onclick="cambiarSeccion('emociones')">COMENZAR ✨</button>
                     <button class="btn-sm" onclick="cambiarSeccion('sobre')">CONOCER ECLIPSE</button>
@@ -1220,15 +1220,57 @@
             </div>
             <div id="resultado-emocion" style="margin-top: 25px;"></div>
         `;
-            } else if (seccion === 'sobre') {
-                document.getElementById('nav-sobre').classList.add('active');
-                container.innerHTML = `
-                    <h1>Sobre <span>ECLIPSE</span></h1>
-                    <div class="card">
-                        <p style="font-size: 1.05rem; color: var(--text-main);">“ECLIPSE es un espacio creado para acompañarte en el proceso de conocerte, cuidarte y fortalecer tu bienestar. Ofrecemos orientación personalizada y espacios individuales adaptados a cada caso, buscando que cada persona encuentre herramientas que puedan servirle en su propio proceso.”</p>
-                        <button class="btn-sm" style="margin-top: 15px;" onclick="cambiarSeccion('servicios')">CONOCER NUESTRO PROPÓSITO</button>
-                    </div>
-                `;
+            
+} else if (seccion === 'sobre') {
+    document.getElementById('nav-sobre').classList.add('active');
+    container.innerHTML = `
+        <h1>Sobre <span>ECLIPSE</span></h1>
+
+        <div class="card">
+            <p style="font-size: 1.05rem; color: var(--text-main);">
+                “ECLIPSE es un espacio creado para acompañarte en el proceso de conocerte, cuidarte y fortalecer tu bienestar. Ofrecemos orientación personalizada y espacios individuales adaptados a cada caso, buscando que cada persona encuentre herramientas que puedan servirle en su propio proceso.”
+            </p>
+
+            <button class="btn-sm" style="margin-top: 15px;"
+                onclick="cambiarSeccion('servicios')">
+                CONOCER NUESTRO PROPÓSITO
+            </button>
+        </div>
+
+        <div class="card" style="
+            margin-top: 25px;
+            text-align: center;
+            border: 1px solid #E8A9C4;
+            background: linear-gradient(135deg, #FFF7FA, #F8D9E6);
+        ">
+            <h2 style="color: #54243F; margin-bottom: 10px;">
+                🌙 Conoce nuestra esencia
+            </h2>
+
+            <p style="color: #79556A;">
+                Descubre el propósito de ECLIPSE y este espacio que hemos creado para ti. 💗
+            </p>
+
+            <video controls playsinline preload="metadata"
+                style="
+                    width: 100%;
+                    max-width: 650px;
+                    max-height: 380px;
+                    border-radius: 16px;
+                    border: 2px solid #E8A9C4;
+                    background: #241522;
+                    box-shadow: 0 8px 25px rgba(84,36,63,.18);
+                ">
+                <source src="{{ url_for('static', filename='videos/bienvenida.mp4') }}" type="video/mp4">
+                Tu navegador no puede reproducir este video.
+            </video>
+
+            <p style="margin-top: 12px; font-size: .85rem;">
+                Gracias por formar parte de ECLIPSE. ✨
+            </p>
+        </div>
+    `;
+
             } else if (seccion === 'servicios') {
                 document.getElementById('nav-servicios').classList.add('active');
                 container.innerHTML = `
