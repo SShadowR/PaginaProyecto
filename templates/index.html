@@ -2117,5 +2117,117 @@ function mostrarPasoChat(pasoKey) {
     }
 }
 </script>
+
+<!-- MASCOTA INTERACTIVA ECLIPSE -->
+<div id="eclipse-mascota" title="¡Haz clic para hablar conmigo!">
+    <div id="mascota-mensaje">
+        ¡Hola! 🌙 Me alegra verte por aquí.
+    </div>
+
+    <img
+        src="{{ url_for('static', filename='img/Muñequito.png') }}"
+        alt="Mascota de ECLIPSE"
+        id="mascota-imagen"
+    >
+</div>
+
+<style>
+#eclipse-mascota {
+    position: fixed;
+    right: 22px;
+    bottom: 20px;
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+#mascota-imagen {
+    width: 105px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(84,36,63,.25));
+    transition: transform .3s ease;
+    animation: mascotaFlota 3s ease-in-out infinite;
+}
+
+#eclipse-mascota:hover #mascota-imagen {
+    transform: scale(1.12);
+}
+
+#mascota-mensaje {
+    display: none;
+    max-width: 230px;
+    margin-bottom: 10px;
+    padding: 13px 16px;
+    border: 1px solid #E8A9C4;
+    border-radius: 18px;
+    background: #FFF7FA;
+    color: #54243F;
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(84,36,63,.18);
+    animation: mensajeAparece .25s ease;
+}
+
+#eclipse-mascota.activa #mascota-mensaje {
+    display: block;
+}
+
+@keyframes mascotaFlota {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+}
+
+@keyframes mensajeAparece {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    #mascota-imagen {
+        width: 82px;
+    }
+
+    #eclipse-mascota {
+        right: 12px;
+        bottom: 14px;
+    }
+}
+</style>
+
+<script>
+(function () {
+    const mascota = document.getElementById('eclipse-mascota');
+    const mensaje = document.getElementById('mascota-mensaje');
+
+    if (!mascota || !mensaje) return;
+
+    const mensajes = [
+        "¡Hola! 🌙 Me alegra verte por aquí.",
+        "Recuerda que también mereces todo el amor que das. 💗",
+        "Un pequeño paso también es un avance. ✨",
+        "No tienes que tener todo resuelto hoy. 🌷",
+        "Regálate unos minutos para respirar. 🌸",
+        "¡Qué bueno que estés dedicando tiempo a ti! 💕",
+        "Tu proceso es único. No te compares con nadie. 🌙"
+    ];
+
+    let ultimoMensaje = -1;
+
+    mascota.addEventListener('click', function () {
+        let nuevo;
+
+        do {
+            nuevo = Math.floor(Math.random() * mensajes.length);
+        } while (nuevo === ultimoMensaje);
+
+        ultimoMensaje = nuevo;
+        mensaje.textContent = mensajes[nuevo];
+        mascota.classList.add('activa');
+    });
+})();
+</script>
 </body>
 </html>
