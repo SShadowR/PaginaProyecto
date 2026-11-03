@@ -2158,17 +2158,19 @@ function mostrarPasoChat(pasoKey) {
 
 #mascota-mensaje {
     display: none;
-    max-width: 230px;
-    margin-bottom: 10px;
-    padding: 13px 16px;
-    border: 1px solid #E8A9C4;
-    border-radius: 18px;
-    background: #FFF7FA;
-    color: #54243F;
+    max-width: 240px;
+    margin-bottom: 12px;
+    padding: 15px 18px;
+    border: 1px solid rgba(232, 169, 196, 0.65);
+    border-radius: 20px;
+    background: linear-gradient(145deg, #713B5A, #54243F);
+    color: #FFF7FA;
     font-size: 14px;
+    line-height: 1.6;
     text-align: center;
-    box-shadow: 0 5px 20px rgba(84,36,63,.18);
+    box-shadow: 0 8px 25px rgba(84, 36, 63, 0.3);
     animation: mensajeAparece .25s ease;
+    backdrop-filter: blur(10px);
 }
 
 #eclipse-mascota.activa #mascota-mensaje {
