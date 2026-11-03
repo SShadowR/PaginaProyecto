@@ -356,7 +356,7 @@
             background: var(--input-bg);
             border: 1px solid var(--card-border);
             border-radius: 10px;
-            color: #FFF7FA;
+            
             outline: none;
             transition: border-color 0.3s;
         }
@@ -2243,6 +2243,127 @@ const mensajes = [
         mensaje.textContent = mensajes[nuevo];
         mascota.classList.add('activa');
     });
+})();
+</script>
+
+<!-- VENTANA DE BIENVENIDA ECLIPSE -->
+<div id="bienvenida-video">
+    <div class="bienvenida-contenido">
+
+        <div class="bienvenida-encabezado">
+            <h2>Bienvenido/a a ECLIPSE 🌙</h2>
+            <p>Un espacio para conectar contigo. 💗</p>
+        </div>
+
+        <video id="video-intro" autoplay muted playsinline controls>
+            <source src="{{ url_for('static', filename='videos/bienvenida.mp4') }}" type="video/mp4">
+            Tu navegador no puede reproducir este video.
+        </video>
+
+        <button id="omitir-video" type="button">
+            Omitir introducción ✨
+        </button>
+
+    </div>
+</div>
+
+<style>
+#bienvenida-video {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(35, 15, 29, 0.78);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+}
+
+.bienvenida-contenido {
+    width: 100%;
+    max-width: 680px;
+    background: #FFF7FA;
+    border: 2px solid #E8A9C4;
+    border-radius: 22px;
+    padding: 22px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(0,0,0,.3);
+    animation: entradaBienvenida .5s ease;
+}
+
+.bienvenida-encabezado h2 {
+    color: #54243F;
+    margin: 0 0 8px;
+}
+
+.bienvenida-encabezado p {
+    color: #79556A;
+    margin-bottom: 18px;
+}
+
+#video-intro {
+    width: 100%;
+    max-height: 360px;
+    object-fit: contain;
+    background: #241522;
+    border-radius: 14px;
+}
+
+#omitir-video {
+    margin-top: 18px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #54243F, #C7789C);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform .2s ease;
+}
+
+#omitir-video:hover {
+    transform: scale(1.05);
+}
+
+@keyframes entradaBienvenida {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 600px) {
+    .bienvenida-contenido {
+        padding: 15px;
+    }
+
+    #video-intro {
+        max-height: 260px;
+    }
+}
+</style>
+
+<script>
+(function () {
+    const ventana = document.getElementById('bienvenida-video');
+    const video = document.getElementById('video-intro');
+    const boton = document.getElementById('omitir-video');
+
+    if (!ventana || !video || !boton) return;
+
+    function cerrarBienvenida() {
+        ventana.style.display = 'none';
+        video.pause();
+    }
+
+    boton.addEventListener('click', cerrarBienvenida);
+
+    video.addEventListener('ended', cerrarBienvenida);
 })();
 </script>
 </body>
