@@ -299,12 +299,31 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+            overflow: hidden;
+            box-sizing: border-box; 
+            min-width: 0;
         }
 
         .emotion-card:hover {
             border-color: var(--accent);
             transform: translateY(-3px);
             background: rgba(232, 169, 196, 0.08);
+        }
+
+        .emotions-grid .emotion-card img {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: 135px;
+            object-fit: contain;
+            object-position: center;
+            margin: 0 auto 10px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+        }
+
+        .emotions-grid .emotion-card:hover img {
+            transform: scale(1.04);
         }
 
         
