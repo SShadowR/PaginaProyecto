@@ -1205,23 +1205,61 @@
     });
 } else if (seccion === 'emociones') {
         document.getElementById('nav-emociones').classList.add('active');
-        container.innerHTML = `
-            <h1>¿Cómo te <span>sientes hoy?</span></h1>
-            <p>Selecciona cómo te encuentras para recibir un mensaje especial adaptado a tu momento.</p>
-            <div class="emotions-grid">
-                <div class="emotion-card" onclick="responderEmocion('feliz')"><h3>😊</h3><p>Feliz</p></div>
-                <div class="emotion-card" onclick="responderEmocion('tranquilo')"><h3>😌</h3><p>Tranquilo</p></div>
-                <div class="emotion-card" onclick="responderEmocion('motivado')"><h3>🥰</h3><p>Motivado/a</p></div>
-                <div class="emotion-card" onclick="responderEmocion('normal')"><h3>😐</h3><p>Normal</p></div>
-                <div class="emotion-card" onclick="responderEmocion('triste')"><h3>😔</h3><p>Triste</p></div>
-                <div class="emotion-card" onclick="responderEmocion('estresado')"><h3>😩</h3><p>Estresado/a</p></div>
-                <div class="emotion-card" onclick="responderEmocion('cansado')"><h3>🥱</h3><p>Cansado/a</p></div>
-                <div class="emotion-card" onclick="responderEmocion('nose')"><h3>🖤</h3><p>No sé</p></div>
+} else if (seccion === 'emociones') {
+    document.getElementById('nav-emociones').classList.add('active');
+    container.innerHTML = `
+        <h1>¿Cómo te <span>sientes hoy?</span></h1>
+        <p>Selecciona cómo te encuentras para recibir un mensaje especial adaptado a tu momento.</p>
+
+        <div class="emotions-grid">
+
+            <div class="emotion-card" onclick="responderEmocion('feliz')">
+                <img src="/static/img/emociones/feliz.png" alt="Feliz">
+                <p>Feliz</p>
             </div>
-            <div id="resultado-emocion" style="margin-top: 25px;"></div>
-        `;
-            
-} else if (seccion === 'sobre') {
+
+            <div class="emotion-card" onclick="responderEmocion('tranquilo')">
+                <img src="/static/img/emociones/tranquila.png" alt="Tranquila">
+                <p>Tranquilo/a</p>
+            </div>
+
+            <div class="emotion-card" onclick="responderEmocion('motivado')">
+                <img src="/static/img/emociones/motivada.png" alt="Motivada">
+                <p>Motivado/a</p>
+            </div>
+
+            <div class="emotion-card" onclick="responderEmocion('normal')">
+                <img src="/static/img/emociones/normal.png" alt="Normal">
+                <p>Normal</p>
+            </div>
+
+            <div class="emotion-card" onclick="responderEmocion('triste')">
+                <img src="/static/img/emociones/triste.png" alt="Triste">
+                <p>Triste</p>
+            </div>
+
+            <div class="emotion-card" onclick="responderEmocion('estresado')">
+                <img src="/static/img/emociones/estresada.png" alt="Estresada">
+                <p>Estresado/a</p>
+            </div>
+
+            <div class="emotion-card" onclick="responderEmocion('cansado')">
+                <img src="/static/img/emociones/cansada.png" alt="Cansada">
+                <p>Cansado/a</p>
+            </div>
+
+            <div class="emotion-card" onclick="responderEmocion('nose')">
+                <img src="/static/img/emociones/nose.png" alt="No sé">
+                <p>No sé</p>
+            </div>
+
+        </div>
+
+        <div id="resultado-emocion" style="margin-top: 25px;"></div>
+    `;
+}
+
+else if (seccion === 'sobre') {
     document.getElementById('nav-sobre').classList.add('active');
     container.innerHTML = `
         <h1>Sobre <span>ECLIPSE</span></h1>
