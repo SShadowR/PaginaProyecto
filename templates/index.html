@@ -1220,51 +1220,55 @@ input[id^="comentario-input-"] {
     color: white !important;
 }
 
+/* DISTRIBUCIÓN DE MI UNIVERSO */
 .universo-layout {
+    position: relative;
     width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 210px minmax(0, 1fr) 210px;
-    gap: 30px;
-    align-items: stretch;
-    padding: 20px;
     box-sizing: border-box;
 }
 
-.universo-imagen-lateral {
-    width: 100%;
-    height: 650px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(84, 36, 63, 0.18);
-    position: sticky;
-    top: 100px;
-}
-
+/* CONTENIDO CENTRAL */
 .universo-section {
-    min-width: 0;
     width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 
-@media (max-width: 1100px) {
-    .universo-layout {
-        grid-template-columns: 140px minmax(0, 1fr) 140px;
-        gap: 18px;
-    }
+/* IMÁGENES LATERALES */
+.universo-imagen-lateral {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 190px;
+    height: 520px;
+    object-fit: contain;
+    object-position: center;
+    z-index: 1;
+    pointer-events: none;
+}
 
+/* EXTREMO IZQUIERDO */
+.universo-imagen-lateral:first-of-type {
+    left: 15px;
+}
+
+/* EXTREMO DERECHO */
+.universo-imagen-lateral:last-of-type {
+    right: 15px;
+}
+
+/* PANTALLAS MEDIANAS */
+@media (max-width: 1250px) {
     .universo-imagen-lateral {
-        height: 500px;
+        width: 130px;
+        height: 420px;
     }
 }
 
-@media (max-width: 750px) {
-    .universo-layout {
-        display: block;
-        padding: 10px;
-    }
-
+/* CELULARES */
+@media (max-width: 850px) {
     .universo-imagen-lateral {
         display: none;
     }
